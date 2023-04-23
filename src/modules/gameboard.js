@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import Ship from "./ship";
 
 export default class Gameboard {
@@ -24,11 +25,11 @@ export default class Gameboard {
 
   createShips() {
     this.ships = [
-      new Ship(1),
-      new Ship(2),
-      new Ship(3),
-      new Ship(4),
-      new Ship(5),
+      new Ship(1, nanoid()),
+      new Ship(2, nanoid()),
+      new Ship(3, nanoid()),
+      new Ship(4, nanoid()),
+      new Ship(5, nanoid()),
     ];
   }
 

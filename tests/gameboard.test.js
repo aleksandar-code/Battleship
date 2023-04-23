@@ -1,3 +1,4 @@
+jest.mock("nanoid");
 import Gameboard from "../src/modules/gameboard";
 
 describe("gameboard", () => {
