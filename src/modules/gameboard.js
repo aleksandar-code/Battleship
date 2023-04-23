@@ -33,6 +33,7 @@ export default class Gameboard {
       this.board[x][y] = ["X"];
     } else if (this.board[x][y][0] === "=") {
       this.board[x][y] = ["BOOM"];
+      // should board contain ship reference and also ship display? Like i did in chess, so nodes?
     }
   }
 
