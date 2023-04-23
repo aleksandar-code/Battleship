@@ -1,5 +1,5 @@
 import Gameboard from "../src/modules/gameboard";
-
+import Ship from "../src/modules/ship";
 describe("Gameboard", () => {
   describe("receiveAttack", () => {
     test("Receive attack on board", () => {
@@ -34,18 +34,22 @@ describe("Gameboard", () => {
   describe("placeShip", () => {
     test("place ship of length 1 at 0, 0", () => {
       const board = new Gameboard("Player");
+      const ship = board.ships[0];
       const x = 0;
       const y = 0;
-      const length = 1;
-      board.placeShip(x, y, length);
+      ship.x = x;
+      ship.y = y;
+      board.placeShip(ship);
       expect(board.board[x][y]).toContain("=");
     });
 
     test("place ship of length 5 at 0, 0", () => {
       const board = new Gameboard("Player");
+      const ship = board.ships[4];
       const x = 0;
       const y = 0;
-      const length = 5;
+      ship.x = x;
+      ship.y = y;
       const array = [
         ["="],
         ["="],
@@ -58,30 +62,43 @@ describe("Gameboard", () => {
         [""],
         [""],
       ];
-      board.placeShip(x, y, length);
+      board.placeShip(ship);
       expect(board.board[x].toString()).toMatch(array.toString());
     });
 
     test("Can't place ship if a slot is occupied", () => {
       const board = new Gameboard("Player");
+      const ship = board.ships[0];
+      const x = 0;
+      const y = 0;
+      ship.x = x;
+      ship.y = y;
+      board.placeShip(ship);
+
+      expect(board.placeShip(ship)).toBeFalsy();
+    });
+  });
+
+  describe("changeAxis", () => {
+    test("Place ship on the Y axis", () => {
+      const board = new Gameboard("Player");
       const x = 0;
       const y = 0;
       const length = 5;
-      const array = [
-        ["="],
-        ["="],
-        ["="],
-        ["="],
-        ["="],
-        [""],
-        [""],
-        [""],
-        [""],
-        [""],
-      ];
       board.placeShip(x, y, length);
 
-      expect(board.placeShip(x, y, length)).toBeFalsy();
+      expect(board.changeAxis(x, y, length)).toBeTruthy();
+    });
+
+    test("Remove the ship from previous axis", () => {
+      const board = new Gameboard("Player");
+      const ship = board.ships[4];
+      const x = 0;
+      const y = 0;
+      const length = 5;
+      board.placeShip(x, y, length);
+      expect(board.changeAxis(ship)).toBeTruthy();
+      console.log(board.board);
     });
   });
 });

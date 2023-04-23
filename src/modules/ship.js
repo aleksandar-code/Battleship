@@ -8,6 +8,9 @@ export default class Ship {
     this.length = length;
     this.hits = 0;
     this.sunk = false;
+    this.rotated = false;
+    this.x = null;
+    this.y = null;
   }
 
   hit() {
