@@ -82,12 +82,14 @@ describe("Gameboard", () => {
   describe("changeAxis", () => {
     test("Place ship on the Y axis", () => {
       const board = new Gameboard("Player");
+      const ship = board.ships[4];
       const x = 0;
       const y = 0;
-      const length = 5;
-      board.placeShip(x, y, length);
+      ship.x = x;
+      ship.y = y;
+      board.placeShip(ship);
 
-      expect(board.changeAxis(x, y, length)).toBeTruthy();
+      expect(board.changeAxis(ship)).toBeTruthy();
     });
 
     test("Remove the ship from previous axis", () => {
@@ -95,10 +97,35 @@ describe("Gameboard", () => {
       const ship = board.ships[4];
       const x = 0;
       const y = 0;
-      const length = 5;
-      board.placeShip(x, y, length);
+      ship.x = x;
+      ship.y = y;
+      board.placeShip(ship);
       expect(board.changeAxis(ship)).toBeTruthy();
-      console.log(board.board);
+    });
+
+    test("Can change axis multiple times", () => {
+      const board = new Gameboard("Player");
+      const ship = board.ships[4];
+      const x = 0;
+      const y = 0;
+      ship.x = x;
+      ship.y = y;
+      const array = [
+        ["="],
+        ["="],
+        ["="],
+        ["="],
+        ["="],
+        [""],
+        [""],
+        [""],
+        [""],
+        [""],
+      ];
+      board.placeShip(ship);
+      board.changeAxis(ship);
+      board.changeAxis(ship);
+      expect(board.board[x].toString()).toMatch(array.toString());
     });
   });
 });
