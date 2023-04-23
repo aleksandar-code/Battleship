@@ -28,3 +28,40 @@ Each program or function should have the following information:
 - App input: User input from DOM, placing ships and hitting the gameboard
 - App output: Gameboard receives a hit or/and ship receives a hit and/or ship is sunk.
 - App steps: Create a Game class, Gameboard class, Ship class, Player class
+
+### Gameboard
+
+Fill documentation before continuing to code
+
+- Goal:
+- Input:
+- Output:
+- Steps:
+
+### Ship
+
+- Goal:
+- Input:
+- Output:
+- Steps:
+
+### Game
+
+- Goal:
+- Input:
+- Output:
+- Steps:
+
+# Player
+
+- Goal:
+- Input:
+- Output:
+- Steps:
+
+# Computer
+
+- Goal:
+- Input:
+- Output:
+- Steps:
