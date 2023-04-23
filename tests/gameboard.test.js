@@ -7,7 +7,7 @@ describe("Gameboard", () => {
       const x = 0;
       const y = 0;
       board.receiveAttack(x, y);
-      expect(board.board[x][y]).toMatch("X");
+      expect(board.board[x][y]).toContain("X");
     });
 
     test("Receive attack on board and hit a ship", () => {
@@ -27,7 +27,7 @@ describe("Gameboard", () => {
         [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
       ];
       board.receiveAttack(x, y);
-      expect(board.board[x][y]).toMatch("BOOM");
+      expect(board.board[x][y]).toContain("BOOM");
     });
   });
 
@@ -38,7 +38,7 @@ describe("Gameboard", () => {
       const y = 0;
       const length = 1;
       board.placeShip(x, y, length);
-      expect(board.board[x][y]).toMatch("=");
+      expect(board.board[x][y]).toContain("=");
     });
 
     test("place ship of length 5 at 0, 0", () => {
@@ -47,11 +47,11 @@ describe("Gameboard", () => {
       const y = 0;
       const length = 5;
       const array = [
-        ["-"],
-        ["-"],
-        ["-"],
-        ["-"],
-        ["-"],
+        ["="],
+        ["="],
+        ["="],
+        ["="],
+        ["="],
         [""],
         [""],
         [""],
@@ -59,7 +59,7 @@ describe("Gameboard", () => {
         [""],
       ];
       board.placeShip(x, y, length);
-      expect(board.board[x][y]).toMatch(array);
+      expect(board.board[x].toString()).toMatch(array.toString());
     });
   });
 });

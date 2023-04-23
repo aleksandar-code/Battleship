@@ -30,14 +30,15 @@ export default class Gameboard {
 
   receiveAttack(x, y) {
     if (this.board[x][y][0] === "") {
-      this.board[x][y] = "X";
+      this.board[x][y] = ["X"];
     } else if (this.board[x][y][0] === "=") {
-      this.board[x][y] = "BOOM";
+      this.board[x][y] = ["BOOM"];
     }
-    return this.board[x][y];
   }
 
   placeShip(x, y, length) {
-    this.board[x][y] = "=";
+    for (let i = 0; i < length; i += 1) {
+      this.board[x][y + i] = ["="];
+    }
   }
 }
