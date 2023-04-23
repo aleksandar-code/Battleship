@@ -1,9 +1,22 @@
-jest.mock("nanoid");
 import Gameboard from "../src/modules/gameboard";
 
-describe("gameboard", () => {
-  test("shows owner", () => {
-    const newGameboard = new Gameboard("Player");
-    expect(newGameboard.who()).toMatch("Player");
+describe("Gameboard", () => {
+  test("Receive attack on board", () => {
+    const board = new Gameboard("Player");
+    board.receiveAttack(0, 0);
+    const hitBoard = [
+      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+    ];
+    expect(board.board[0][0]).toMatch("X");
+    console.log(hitBoard, board.board);
   });
 });
