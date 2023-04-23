@@ -37,12 +37,19 @@ export default class Gameboard {
   }
 
   placeShip(x, y, length) {
+    let occupied = false;
     for (let i = 0; i < length; i += 1) {
-      this.board[x][y + i] = ["="];
+      if (this.board[x][y + i][0] === "") {
+        this.board[x][y + i] = ["="];
+      } else {
+        occupied = true;
+      }
     }
-
     // check for edge cases where ship cannot be placed because there's already another ship
     // so if a ship was already placed at one slot where the new ship will be placed it cannot work
     // throw an error
+
+    if (occupied === true) return false;
+    return true;
   }
 }

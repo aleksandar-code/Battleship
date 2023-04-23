@@ -61,5 +61,27 @@ describe("Gameboard", () => {
       board.placeShip(x, y, length);
       expect(board.board[x].toString()).toMatch(array.toString());
     });
+
+    test("Can't place ship if a slot is occupied", () => {
+      const board = new Gameboard("Player");
+      const x = 0;
+      const y = 0;
+      const length = 5;
+      const array = [
+        ["="],
+        ["="],
+        ["="],
+        ["="],
+        ["="],
+        [""],
+        [""],
+        [""],
+        [""],
+        [""],
+      ];
+      board.placeShip(x, y, length);
+
+      expect(board.placeShip(x, y, length)).toBeFalsy();
+    });
   });
 });
