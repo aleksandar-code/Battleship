@@ -1,22 +1,65 @@
 import Gameboard from "../src/modules/gameboard";
 
 describe("Gameboard", () => {
-  test("Receive attack on board", () => {
-    const board = new Gameboard("Player");
-    board.receiveAttack(0, 0);
-    const hitBoard = [
-      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
-      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
-      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
-      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
-      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
-      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
-      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
-      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
-      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
-      [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
-    ];
-    expect(board.board[0][0]).toMatch("X");
-    console.log(hitBoard, board.board);
+  describe("receiveAttack", () => {
+    test("Receive attack on board", () => {
+      const board = new Gameboard("Player");
+      const x = 0;
+      const y = 0;
+      board.receiveAttack(x, y);
+      expect(board.board[x][y]).toMatch("X");
+    });
+
+    test("Receive attack on board and hit a ship", () => {
+      const board = new Gameboard("Player");
+      const x = 0;
+      const y = 0;
+      board.board = [
+        [["="], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+        [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+        [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+        [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+        [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+        [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+        [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+        [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+        [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+        [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
+      ];
+      board.receiveAttack(x, y);
+      expect(board.board[x][y]).toMatch("BOOM");
+    });
+  });
+
+  describe("placeShip", () => {
+    test("place ship of length 1 at 0, 0", () => {
+      const board = new Gameboard("Player");
+      const x = 0;
+      const y = 0;
+      const length = 1;
+      board.placeShip(x, y, length);
+      expect(board.board[x][y]).toMatch("=");
+    });
+
+    test("place ship of length 5 at 0, 0", () => {
+      const board = new Gameboard("Player");
+      const x = 0;
+      const y = 0;
+      const length = 5;
+      const array = [
+        ["-"],
+        ["-"],
+        ["-"],
+        ["-"],
+        ["-"],
+        [""],
+        [""],
+        [""],
+        [""],
+        [""],
+      ];
+      board.placeShip(x, y, length);
+      expect(board.board[x][y]).toMatch(array);
+    });
   });
 });
