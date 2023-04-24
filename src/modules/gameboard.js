@@ -48,12 +48,16 @@ export default class Gameboard {
     }
   }
 
+  // add a set ship head coords function
+
   placeShip(ship) {
     const { x, y, length } = ship;
     let occupied = false;
     for (let i = 0; i < length; i += 1) {
-      if (this.board[x][y + i][0] === "") {
-        this.board[x][y + i] = ["="];
+      if (y + length - 1 > 9 || x > 9 || x < 0 || y > 9 || y < 0) {
+        occupied = true;
+      } else if (this.board[x][y + i].ship === null) {
+        this.board[x][y + i].ship = ship;
       } else {
         occupied = true;
       }
