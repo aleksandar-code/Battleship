@@ -78,53 +78,44 @@ describe("Gameboard", () => {
     });
   });
 
-  // describe("changeAxis", () => {
-  //   test("Place ship on the Y axis", () => {
-  //     const board = new Gameboard("Player");
-  //     const ship = board.ships.five;
-  //     const x = 0;
-  //     const y = 0;
-  //     ship.x = x;
-  //     ship.y = y;
-  //     board.placeShip(ship);
+  describe("changeAxis", () => {
+    test("Place ship on the Y axis", () => {
+      const board = new Gameboard("Player");
+      const ship = board.ships.five;
+      const x = 0;
+      const y = 0;
+      ship.x = x;
+      ship.y = y;
+      board.placeShip(ship);
+      expect(board.changeAxis(ship)).toBeTruthy();
+    });
 
-  //     expect(board.changeAxis(ship)).toBeTruthy();
-  //   });
+    test("Remove the ship from previous axis", () => {
+      const board = new Gameboard("Player");
+      const ship = board.ships.five;
+      const shipTwo = board.ships.two;
+      const x = 0;
+      const y = 0;
+      ship.x = x;
+      ship.y = y;
+      shipTwo.x = x;
+      shipTwo.y = 1;
+      board.placeShip(ship);
+      board.changeAxis(ship);
+      expect(board.placeShip(shipTwo)).toBeTruthy();
+    });
 
-  //   test("Remove the ship from previous axis", () => {
-  //     const board = new Gameboard("Player");
-  //     const ship = board.ships.five;
-  //     const x = 0;
-  //     const y = 0;
-  //     ship.x = x;
-  //     ship.y = y;
-  //     board.placeShip(ship);
-  //     expect(board.changeAxis(ship)).toBeTruthy();
-  //   });
-
-  //   test("Can change axis multiple times", () => {
-  //     const board = new Gameboard("Player");
-  //     const ship = board.ships.five;
-  //     const x = 0;
-  //     const y = 0;
-  //     ship.x = x;
-  //     ship.y = y;
-  //     const array = [
-  //       ["="],
-  //       ["="],
-  //       ["="],
-  //       ["="],
-  //       ["="],
-  //       [""],
-  //       [""],
-  //       [""],
-  //       [""],
-  //       [""],
-  //     ];
-  //     board.placeShip(ship);
-  //     board.changeAxis(ship);
-  //     board.changeAxis(ship);
-  //     expect(board.board[x].toString()).toMatch(array.toString());
-  //   });
-  // });
+    test("Can change axis multiple times", () => {
+      const board = new Gameboard("Player");
+      const ship = board.ships.five;
+      const x = 0;
+      const y = 0;
+      ship.x = x;
+      ship.y = y;
+      board.placeShip(ship);
+      board.changeAxis(ship);
+      board.changeAxis(ship);
+      expect(board.board[x][y + 1].ship).not.toBe(null);
+    });
+  });
 });

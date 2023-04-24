@@ -71,23 +71,25 @@ export default class Gameboard {
     const { x, y, length } = ship;
     let occupied = false;
     for (let i = 1; i < length; i += 1) {
-      if (ship.rotated === false && this.board[x + i][y][0] === "") {
-        this.board[x + i][y] = ["="];
-        this.board[x][y + i] = [""];
-      } else if (ship.rotated === true && this.board[x][y + i][0] === "") {
-        this.board[x][y + i] = ["="];
-        this.board[x + i][y] = [""];
+      if (ship.rotated === false && this.board[x + i][y].ship === null) {
+        this.board[x + i][y].ship = ship;
+        this.board[x][y + i].ship = null;
+      } else if (ship.rotated === true && this.board[x][y + i].ship === null) {
+        this.board[x][y + i].ship = ship;
+        this.board[x + i][y].ship = null;
       } else {
         occupied = true;
       }
     }
 
     if (occupied === true) return false;
-    for (let i = 0; i < this.ships.length; i += 1) {
-      if (this.ships[i].uuid === ship.uuid) {
-        this.ships[i].rotated = !this.ships[i].rotated;
+
+    Object.entries(this.ships).forEach(([key, value]) => {
+      if (value.length === length) {
+        this.ships[key].rotated = !ship.rotated;
       }
-    }
+    });
+
     return true;
   }
 }
