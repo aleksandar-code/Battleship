@@ -16,6 +16,15 @@ export default class Gameboard {
       [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
       [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
     ];
+
+    (() => {
+      this.board.forEach((row, x) => {
+        row.forEach((_, y) => {
+          this.board[x][y] = new Node(x, y);
+        });
+      });
+    })();
+
     this.ships = {
       one: new Ship(1),
       two: new Ship(2),
@@ -25,23 +34,17 @@ export default class Gameboard {
     };
   }
 
-  build() {
-    this.board.forEach((row, x) => {
-      row.forEach((_, y) => {
-        this.board[x][y] = new Node(x, y);
-      });
-    });
-  }
-
   who() {
     return this.owner;
   }
 
   receiveAttack(x, y) {
-    if (this.board[x][y][0] === "") {
-      this.board[x][y] = ["X"];
-    } else if (this.board[x][y][0] === "=") {
-      this.board[x][y] = ["BOOM"];
+    const node = this.board[x][y];
+    if (node.ship === null && node.bombed === false) {
+      node.bombed = true;
+    } else if (node.ship !== null && node.bombed === false) {
+      node.bombed = true;
+      node.ship.hit();
     }
   }
 

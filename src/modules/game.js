@@ -9,8 +9,4 @@ export default class Game {
     this.computer = new Computer();
     this.boards = [new Gameboard(this.player), new Gameboard(this.computer)];
   }
-
-  gameloop() {
-    this.boards[0].build();
-  }
 }
