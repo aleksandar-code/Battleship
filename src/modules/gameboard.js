@@ -48,6 +48,23 @@ export default class Gameboard {
     }
   }
 
+  isGameLost() {
+    const array = [];
+    Object.values(this.ships).forEach((value) => {
+      array.push(value.sunk);
+    });
+
+    const bool = array.every((element) => {
+      let returnValue = false;
+      if (element === true) {
+        returnValue = true;
+      }
+      return returnValue;
+    });
+
+    return bool;
+  }
+
   // add a set ship head coords function
 
   placeShip(ship) {

@@ -118,4 +118,44 @@ describe("Gameboard", () => {
       expect(board.board[x][y + 1].ship).not.toBe(null);
     });
   });
+
+  describe("Is game lost?", () => {
+    const board = new Gameboard("Player");
+    const ship1 = board.ships.one;
+    const ship2 = board.ships.two;
+    const ship3 = board.ships.three;
+    const ship4 = board.ships.four;
+    const ship5 = board.ships.five;
+
+    ship1.x = 4;
+    ship1.y = 4;
+    ship2.x = 3;
+    ship2.y = 3;
+    ship3.x = 2;
+    ship3.y = 2;
+    ship4.x = 1;
+    ship4.y = 1;
+    ship5.x = 0;
+    ship5.y = 0;
+
+    const array = [ship1, ship2, ship3, ship4, ship5];
+
+    array.forEach((ship) => {
+      board.placeShip(ship);
+    });
+
+    test("Game isn't lost, all ships are not sunk", () => {
+      expect(board.isGameLost()).toBeFalsy();
+    });
+
+    test("Game isn't lost, all ships are not sunk", () => {
+      ship1.sunk = true;
+      ship2.sunk = true;
+      ship3.sunk = true;
+      ship4.sunk = true;
+      ship5.sunk = true;
+
+      expect(board.isGameLost()).toBeTruthy();
+    });
+  });
 });
