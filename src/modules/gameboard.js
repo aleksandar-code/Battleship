@@ -1,3 +1,4 @@
+import Node from "./node";
 import Ship from "./ship";
 
 export default class Gameboard {
@@ -15,13 +16,21 @@ export default class Gameboard {
       [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
       [[""], [""], [""], [""], [""], [""], [""], [""], [""], [""]],
     ];
-    this.ships = [
-      new Ship(1),
-      new Ship(2),
-      new Ship(3),
-      new Ship(4),
-      new Ship(5),
-    ];
+    this.ships = {
+      one: new Ship(1),
+      two: new Ship(2),
+      three: new Ship(3),
+      four: new Ship(4),
+      five: new Ship(5),
+    };
+  }
+
+  build() {
+    this.board.forEach((row, x) => {
+      row.forEach((_, y) => {
+        this.board[x][y] = new Node(x, y);
+      });
+    });
   }
 
   who() {
@@ -33,7 +42,6 @@ export default class Gameboard {
       this.board[x][y] = ["X"];
     } else if (this.board[x][y][0] === "=") {
       this.board[x][y] = ["BOOM"];
-      // should board contain ship reference and also ship display? Like i did in chess, so nodes?
     }
   }
 

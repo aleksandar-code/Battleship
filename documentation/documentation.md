@@ -31,12 +31,10 @@ Each program or function should have the following information:
 
 ### Gameboard
 
-Fill documentation before continuing to code
-
-- Goal:
-- Input:
-- Output:
-- Steps:
+- Goal: Place ships, rotate ships, receive attacks, hold ship object inside a node, the board has 10x10 nodes.
+- Input: User clicks the gameboard dom.
+- Output: A ship is placed, rotated, bombed, or missed.
+- Steps: Create a node system, a node should have x and y coords, ship object or empty object, bombed boolean,
 
 ### Ship
 

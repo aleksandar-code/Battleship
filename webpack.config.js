@@ -1,5 +1,4 @@
 const path = require("path");
-// eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
@@ -8,7 +7,7 @@ module.exports = {
   devtool: "inline-source-map",
   plugins: [
     new HtmlWebpackPlugin({
-      title: "template-webpack",
+      template: "src/index.html",
     }),
   ],
 
@@ -21,7 +20,7 @@ module.exports = {
     ],
   },
   output: {
-    filename: "[name].bundle.js",
+    filename: "index.bundle.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },

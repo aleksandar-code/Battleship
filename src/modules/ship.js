@@ -1,10 +1,7 @@
 // A ship has a length, tracks number received hits, a sunk boolean
 
-import uuidv4 from "./randomUuid";
-
 export default class Ship {
   constructor(length) {
-    this.uuid = uuidv4();
     this.length = length;
     this.hits = 0;
     this.sunk = false;
