@@ -26,6 +26,14 @@ body {
 }
 
 .slot {
-  border: 1px solid red;
-  
+  border: 1px solid red; 
+  display: flex;
+  align-items: center;
+}
+
+.ship {
+  background-color: blue;
+  height: 100%;
+  width: 100%;
+  border: 3px solid yellow;
 }
