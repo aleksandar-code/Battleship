@@ -3,3 +3,22 @@
   margin: 0;
   padding: 0;
 }
+
+.content {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.board {
+  min-width: 500px;
+  height: 500px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.slot {
+  border: 1px solid red;
+  
+}
