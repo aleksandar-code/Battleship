@@ -32,16 +32,15 @@ Each program or function should have the following information:
 ### Gameboard
 
 - Goal: Place ships, rotate ships, receive attacks, hold ship object inside a node, the board has 10x10 nodes.
-- Input: User clicks the gameboard dom.
+- Input: mouse drag, drop, hover, click.
 - Output: A ship is placed, rotated, bombed, or missed.
 - Steps: Create a node system, a node should have x and y coords, ship object or empty object, bombed boolean,
 
 ### Ship
 
-- Goal:
-- Input:
-- Output:
-- Steps:
+- Goal: receive attacks, get sunk, have coords of the ship head, get rotated
+- Input: Gameboard
+- Output: holds ship data
 
 ### Game
 
@@ -52,14 +51,12 @@ Each program or function should have the following information:
 
 # Player
 
-- Goal:
-- Input:
-- Output:
-- Steps:
+- Goal: interact with the board using a mouse on desktop or finger on mobile device.
+- Input: Mouse coords and user id
+- Output: Mouse coords and user id
 
 # Computer
 
-- Goal:
-- Input:
-- Output:
-- Steps:
+- Goal: have a randomly placed gameboard with 5 ships, make a random legal move on the enemy board
+- Input: random
+- Output: random

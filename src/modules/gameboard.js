@@ -38,6 +38,10 @@ export default class Gameboard {
     return this.owner;
   }
 
+  // randomlyPlaceShips() {
+
+  // }
+
   receiveAttack(x, y) {
     const node = this.board[x][y];
     if (node.ship === null && node.bombed === false) {
