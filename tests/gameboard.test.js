@@ -148,7 +148,7 @@ describe("Gameboard", () => {
       expect(board.isGameLost()).toBeFalsy();
     });
 
-    test("Game isn't lost, all ships are not sunk", () => {
+    test("Game is lost, all ships are sunk", () => {
       ship1.sunk = true;
       ship2.sunk = true;
       ship3.sunk = true;
