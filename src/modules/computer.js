@@ -1,6 +1,5 @@
 export default class Computer {
   constructor(playerBoard) {
-    this.enemyBoard = playerBoard;
     this.remainingSlots = playerBoard.flat(Infinity);
   }
 

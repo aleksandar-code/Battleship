@@ -6,8 +6,10 @@ import Computer from "./computer";
 export default class Game {
   constructor() {
     this.player = new Player();
-    this.computer = new Computer();
-    this.boards = [new Gameboard(this.player), new Gameboard(this.computer)];
+    const playerBoard = new Gameboard(this.player);
+    this.computer = new Computer(playerBoard.board);
+    const computerBoard = new Gameboard(this.computer);
+    this.boards = [playerBoard, computerBoard];
   }
 
   gameLoop() {
