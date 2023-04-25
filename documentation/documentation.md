@@ -60,3 +60,5 @@ Each program or function should have the following information:
 - Goal: have a randomly placed gameboard with 5 ships, make a random legal move on the enemy board
 - Input: random
 - Output: random
+- Steps: the constructor should contain a representation of the enemy board, a list of hitted slots.
+  Object should contain a function that randomly hits a slot on the board.
