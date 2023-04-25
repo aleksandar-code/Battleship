@@ -116,8 +116,8 @@ describe("Gameboard", () => {
     const ships = board.ships;
 
     keys.forEach((key) => {
-      coords.forEach((coords) => {
-        board.placeShip(ships[key], coords);
+      coords.forEach((coord) => {
+        board.placeShip(ships[key], coord);
       });
     });
 

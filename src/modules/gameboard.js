@@ -42,6 +42,24 @@ export default class Gameboard {
 
   // }
 
+  placeShips() {
+    const coords = [
+      [4, 4],
+      [3, 3],
+      [2, 2],
+      [1, 1],
+      [0, 0],
+    ];
+
+    const keys = ["one", "two", "three", "four", "five"];
+    const shipList = this.ships;
+    keys.forEach((key) => {
+      coords.forEach((coord) => {
+        this.placeShip(shipList[key], coord);
+      });
+    });
+  }
+
   receiveAttack(x, y) {
     const node = this.board[x][y];
     if (node.ship === null && node.bombed === false) {
