@@ -27,9 +27,8 @@ describe("Gameboard", () => {
       const ship = board.ships.one;
       const x = 0;
       const y = 5;
-      ship.x = x;
-      ship.y = y;
-      expect(board.placeShip(ship)).toBe(true);
+
+      expect(board.placeShip(ship, [x, y])).toBe(true);
     });
 
     test("place ship of length 5 at 0, 5", () => {
@@ -37,9 +36,7 @@ describe("Gameboard", () => {
       const ship = board.ships.five;
       const x = 0;
       const y = 5;
-      ship.x = x;
-      ship.y = y;
-      expect(board.placeShip(ship)).toBe(true);
+      expect(board.placeShip(ship, [x, y])).toBe(true);
     });
 
     test("can't place ship of length 5 at 0, 6", () => {
@@ -47,10 +44,8 @@ describe("Gameboard", () => {
       const ship = board.ships.five;
       const x = 0;
       const y = 6;
-      ship.x = x;
-      ship.y = y;
 
-      expect(board.placeShip(ship)).toBe(false);
+      expect(board.placeShip(ship, [x, y])).toBe(false);
     });
 
     test("can't place ship of length 1 at 10, 6", () => {
@@ -58,9 +53,7 @@ describe("Gameboard", () => {
       const ship = board.ships.one;
       const x = 10;
       const y = 6;
-      ship.x = x;
-      ship.y = y;
-      expect(board.placeShip(ship)).toBe(false);
+      expect(board.placeShip(ship, [x, y])).toBe(false);
     });
 
     test("Can't place ship if a slot is occupied", () => {
@@ -69,12 +62,8 @@ describe("Gameboard", () => {
       const shipTwo = board.ships.two;
       const x = 0;
       const y = 0;
-      ship.x = x;
-      ship.y = y;
-      shipTwo.x = y;
-      shipTwo.y = y;
-      board.placeShip(ship);
-      expect(board.placeShip(shipTwo)).toBe(false);
+      board.placeShip(ship, [x, y]);
+      expect(board.placeShip(shipTwo, [x, y])).toBe(false);
     });
   });
 
@@ -84,9 +73,7 @@ describe("Gameboard", () => {
       const ship = board.ships.five;
       const x = 0;
       const y = 0;
-      ship.x = x;
-      ship.y = y;
-      board.placeShip(ship);
+      board.placeShip(ship, [x, y]);
       expect(board.changeAxis(ship)).toBeTruthy();
     });
 
@@ -96,13 +83,10 @@ describe("Gameboard", () => {
       const shipTwo = board.ships.two;
       const x = 0;
       const y = 0;
-      ship.x = x;
-      ship.y = y;
-      shipTwo.x = x;
-      shipTwo.y = 1;
-      board.placeShip(ship);
+
+      board.placeShip(ship, [x, y]);
       board.changeAxis(ship);
-      expect(board.placeShip(shipTwo)).toBeTruthy();
+      expect(board.placeShip(shipTwo, [x, 1])).toBeTruthy();
     });
 
     test("Can change axis multiple times", () => {
@@ -110,9 +94,7 @@ describe("Gameboard", () => {
       const ship = board.ships.five;
       const x = 0;
       const y = 0;
-      ship.x = x;
-      ship.y = y;
-      board.placeShip(ship);
+      board.placeShip(ship, [x, y]);
       board.changeAxis(ship);
       board.changeAxis(ship);
       expect(board.board[x][y + 1].ship).not.toBe(null);
@@ -121,27 +103,22 @@ describe("Gameboard", () => {
 
   describe("Is game lost?", () => {
     const board = new Gameboard("Player");
-    const ship1 = board.ships.one;
-    const ship2 = board.ships.two;
-    const ship3 = board.ships.three;
-    const ship4 = board.ships.four;
-    const ship5 = board.ships.five;
 
-    ship1.x = 4;
-    ship1.y = 4;
-    ship2.x = 3;
-    ship2.y = 3;
-    ship3.x = 2;
-    ship3.y = 2;
-    ship4.x = 1;
-    ship4.y = 1;
-    ship5.x = 0;
-    ship5.y = 0;
+    const coords = [
+      [4, 4],
+      [3, 3],
+      [2, 2],
+      [1, 1],
+      [0, 0],
+    ];
 
-    const array = [ship1, ship2, ship3, ship4, ship5];
+    const keys = ["one", "two", "three", "four", "five"];
+    const ships = board.ships;
 
-    array.forEach((ship) => {
-      board.placeShip(ship);
+    keys.forEach((key) => {
+      coords.forEach((coords) => {
+        board.placeShip(ships[key], coords);
+      });
     });
 
     test("Game isn't lost, all ships are not sunk", () => {
@@ -149,11 +126,9 @@ describe("Gameboard", () => {
     });
 
     test("Game is lost, all ships are sunk", () => {
-      ship1.sunk = true;
-      ship2.sunk = true;
-      ship3.sunk = true;
-      ship4.sunk = true;
-      ship5.sunk = true;
+      keys.forEach((key) => {
+        ships[key].sunk = true;
+      });
 
       expect(board.isGameLost()).toBeTruthy();
     });

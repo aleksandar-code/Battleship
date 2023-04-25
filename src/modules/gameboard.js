@@ -65,10 +65,9 @@ export default class Gameboard {
     return bool;
   }
 
-  // add a set ship head coords function
-
-  placeShip(ship) {
-    const { x, y, length } = ship;
+  placeShip(ship, currentCoords) {
+    const [x, y] = currentCoords;
+    const { length } = ship;
     let occupied = false;
     for (let i = 0; i < length; i += 1) {
       if (y + length - 1 > 9 || x > 9 || x < 0 || y > 9 || y < 0) {
@@ -81,6 +80,13 @@ export default class Gameboard {
     }
 
     if (occupied === true) return false;
+    Object.entries(this.ships).forEach(([key, value]) => {
+      if (value.length === length) {
+        this.ships[key].x = x;
+        this.ships[key].y = y;
+      }
+    });
+
     return true;
   }
 

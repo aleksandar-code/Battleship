@@ -1,4 +1,5 @@
 import Player from "../src/modules/player";
+import Gameboard from "../src/modules/gameboard";
 
 describe("Player", () => {
   describe("Set user ship's head current x and y coordinates", () => {
@@ -10,6 +11,7 @@ describe("Player", () => {
       expect(player.currentMouseCoords).toEqual([x, y]);
     });
   });
+
   describe("Get user ship's head current x and y coordinates", () => {
     test("Get x and y coords depending on what slot the user mouse is", () => {
       const player = new Player();
