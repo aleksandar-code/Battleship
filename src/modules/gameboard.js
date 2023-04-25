@@ -53,10 +53,8 @@ export default class Gameboard {
 
     const keys = ["one", "two", "three", "four", "five"];
     const shipList = this.ships;
-    keys.forEach((key) => {
-      coords.forEach((coord) => {
-        this.placeShip(shipList[key], coord);
-      });
+    keys.forEach((key, index) => {
+      this.placeShip(shipList[key], coords[index]);
     });
   }
 
