@@ -25,3 +25,15 @@ printShips(newGame.boards);
     });
   });
 })();
+
+(function dragAndDrop() {
+  const playerShips = document.querySelectorAll(".player .ship");
+  const computerShips = document.querySelectorAll(".computer .ship");
+  const playersShips = [Array.from(playerShips), Array.from(computerShips)];
+
+  playersShips.forEach((arr) => {
+    arr.forEach((_, i) => {
+      arr[i].setAttribute("draggable", true);
+    });
+  });
+})();

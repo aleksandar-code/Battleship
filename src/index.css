@@ -9,6 +9,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: aqua;
 }
 
 .content {
@@ -26,7 +27,7 @@ body {
 }
 
 .slot {
-  border: 1px solid red; 
+  border: 1px solid rgba(16, 116, 146, 0.548); 
   display: flex;
   align-items: center;
 }
@@ -36,4 +37,5 @@ body {
   height: 100%;
   width: 100%;
   border: 3px solid yellow;
+  cursor: pointer;
 }
