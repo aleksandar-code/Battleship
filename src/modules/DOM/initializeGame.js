@@ -7,16 +7,21 @@ printBoards();
 printShips(newGame.boards);
 
 (function rotateShips() {
-  const realShips = Object.values(newGame.boards[0].ships);
-  const ships = document.querySelectorAll(".player .ship");
-  const arr = Array.from(ships);
-  arr.forEach((element) => {
-    element.addEventListener("click", () => {
-      const index = element.classList[0][1] - 1;
-      newGame.boards[0].changeAxis(realShips[index]);
-      printBoards();
-      printShips(newGame.boards);
-      rotateShips();
+  const realPlayerShips = Object.values(newGame.boards[0].ships);
+  const realComputerShips = Object.values(newGame.boards[1].ships);
+  const playerShips = document.querySelectorAll(".player .ship");
+  const computerShips = document.querySelectorAll(".computer .ship");
+  const playersShips = [Array.from(playerShips), Array.from(computerShips)];
+  const realPlayersShips = [realPlayerShips, realComputerShips];
+  playersShips.forEach((arr, i) => {
+    arr.forEach((element) => {
+      element.addEventListener("click", () => {
+        const index = element.classList[0][1] - 1;
+        newGame.boards[i].changeAxis(realPlayersShips[i][index]);
+        printBoards();
+        printShips(newGame.boards);
+        rotateShips();
+      });
     });
   });
 })();
