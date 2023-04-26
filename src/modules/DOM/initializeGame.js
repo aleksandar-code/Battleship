@@ -16,29 +16,67 @@ function dragAndDrop() {
       arr[i].setAttribute("draggable", true);
 
       const ship = playersShips[index][i];
+      const fakeShip = ship.cloneNode(false);
       ship.ondragstart = (e) => {
         e.preventDefault();
       };
 
+      fakeShip.ondragstart = (e) => {
+        e.preventDefault();
+      };
+
+      let onMouseMove;
+
+      function showOutline(a, b) {
+        const result = document.elementsFromPoint(a, b);
+        const array = Array.from(result);
+
+        array.forEach((element) => {
+          if (element.classList.contains("slot")) {
+            fakeShip.style.border = "3px solid red";
+            element.appendChild(fakeShip);
+            fakeShip.style.top = "0";
+            fakeShip.style.left = "0";
+          }
+        });
+      }
+
       ship.onmousedown = () => {
         function moveAt(pageX, pageY) {
+          fakeShip.style.left = `${pageX - ship.offsetWidth / 2}px`;
+          fakeShip.style.top = `${pageY - ship.offsetHeight / 2}px`;
           ship.style.left = `${pageX - ship.offsetWidth / 2}px`;
           ship.style.top = `${pageY - ship.offsetHeight / 2}px`;
+
+          showOutline(
+            pageX - fakeShip.offsetWidth / 2,
+            pageY - fakeShip.offsetHeight / 2
+          );
         }
 
-        function onMouseMove(event2) {
+        ship.style.border = "none";
+        onMouseMove = (event2) => {
           ship.style.position = "absolute";
           ship.style.zIndex = 1000;
-          if (ship.classList.contains("rotated"))
-            ship.style.transform = "rotate(90deg)";
           document.body.append(ship);
+          document.body.append(fakeShip);
+
           moveAt(event2.pageX, event2.pageY);
-        }
+        };
 
         document.addEventListener("mousemove", onMouseMove);
 
         ship.onmouseup = () => {
           document.removeEventListener("mousemove", onMouseMove);
+
+          ship.style.border = "3px solid yellow";
+          ship.style.left = "0";
+          ship.style.top = "0";
+          try {
+            fakeShip.parentNode.replaceChild(ship, fakeShip);
+          } catch (error) {
+            console.log(error);
+          }
           ship.onmouseup = null;
         };
       };
@@ -59,6 +97,7 @@ function dragAndDrop() {
       element.addEventListener("click", () => {
         const index = element.classList[0][1] - 1;
         newGame.boards[i].changeAxis(realPlayersShips[i][index]);
+        console.log(realPlayersShips[i][index]);
         printBoards();
         printShips(newGame.boards);
         rotateShips();
@@ -67,3 +106,6 @@ function dragAndDrop() {
     });
   });
 })();
+
+// add ship coordinates into the ship object based on the rotation of the ship and the place of its head on the board.
+// handle display errors for ships on the board, then start implementing hits

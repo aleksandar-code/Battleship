@@ -34,8 +34,8 @@ body {
   position: relative;
 }
 
+
 .ship {
-  background-color: blue;
   height: 50px;
   border: 3px solid yellow;
   cursor: move!important;
