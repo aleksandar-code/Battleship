@@ -40,7 +40,7 @@ const printShips = (boards) => {
   boardData.forEach((node, index) => {
     if (node.ship !== null) {
       const ship = document.createElement("div");
-      ship.classList.add(`length-${node.ship.length}`);
+      ship.classList.add(`l${node.ship.length}`);
       ship.classList.add("ship");
       if (node.ship.rotated === true) ship.classList.add("rotated");
       array[index].appendChild(ship);
@@ -50,21 +50,21 @@ const printShips = (boards) => {
   boardData2.forEach((node, index) => {
     if (node.ship !== null) {
       const ship = document.createElement("div");
-      ship.classList.add(`length-${node.ship.length}`);
+      ship.classList.add(`l${node.ship.length}`);
       ship.classList.add("ship");
       if (node.ship.rotated === true) ship.classList.add("rotated");
       array2[index].appendChild(ship);
     }
   });
-  const length5 = document.querySelectorAll(".player .length-5");
-  const length4 = document.querySelectorAll(".player .length-4");
-  const length3 = document.querySelectorAll(".player .length-3");
-  const length2 = document.querySelectorAll(".player .length-2");
+  const length5 = document.querySelectorAll(".player .l5");
+  const length4 = document.querySelectorAll(".player .l4");
+  const length3 = document.querySelectorAll(".player .l3");
+  const length2 = document.querySelectorAll(".player .l2");
 
-  const lengthComputer5 = document.querySelectorAll(".computer .length-5");
-  const lengthComputer4 = document.querySelectorAll(".computer .length-4");
-  const lengthComputer3 = document.querySelectorAll(".computer .length-3");
-  const lengthComputer2 = document.querySelectorAll(".computer .length-2");
+  const lengthComputer5 = document.querySelectorAll(".computer .l5");
+  const lengthComputer4 = document.querySelectorAll(".computer .l4");
+  const lengthComputer3 = document.querySelectorAll(".computer .l3");
+  const lengthComputer2 = document.querySelectorAll(".computer .l2");
   shapeBoats(length5);
   shapeBoats(length4);
   shapeBoats(length3);

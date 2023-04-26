@@ -7,12 +7,13 @@ printBoards();
 printShips(newGame.boards);
 
 (function rotateShips() {
-  const ship = newGame.boards[0].ships.five;
-  const five = document.querySelectorAll(".player .length-5");
-  const arr = Array.from(five);
+  const realShips = Object.values(newGame.boards[0].ships);
+  const ships = document.querySelectorAll(".player .ship");
+  const arr = Array.from(ships);
   arr.forEach((element) => {
     element.addEventListener("click", () => {
-      newGame.boards[0].changeAxis(ship);
+      const index = element.classList[0][1] - 1;
+      newGame.boards[0].changeAxis(realShips[index]);
       printBoards();
       printShips(newGame.boards);
       rotateShips();
