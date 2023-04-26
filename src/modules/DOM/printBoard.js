@@ -37,6 +37,7 @@ const printShips = (boards) => {
 
 const printBoards = () => {
   const board = document.querySelectorAll(".board");
+  document.querySelectorAll(".ship").forEach((e) => e.remove());
   board[0].innerHTML = "";
   board[1].innerHTML = "";
   for (let i = 0; i < 2; i += 1) {
