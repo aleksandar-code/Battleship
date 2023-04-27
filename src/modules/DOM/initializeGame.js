@@ -49,7 +49,6 @@ function dragAndDrop() {
               let bool = true;
               let ourShip = fakeElement.parentNode;
               for (let j = 0; j < valueIndex; j += 1) {
-                console.log(ourShip.nextSibling);
                 if (ourShip.nextSibling.dataset.empty === "true") {
                   bool = true;
                 } else {
@@ -137,6 +136,7 @@ function dragAndDrop() {
 
           document.body.append(ship);
           document.body.append(fakeShip);
+
           moveAt(event2.pageX, event2.pageY);
         };
 
