@@ -125,8 +125,10 @@ function dragAndDrop() {
 
         let myShip = ship.parentNode;
         for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
-          myShip.dataset.empty = "true";
-          myShip = myShip.nextSibling;
+          if (myShip) {
+            myShip.dataset.empty = "true";
+            myShip = myShip.nextSibling;
+          }
         }
 
         ship.style.border = "none";
