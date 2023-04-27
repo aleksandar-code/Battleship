@@ -113,16 +113,47 @@ export default class Gameboard {
     return true;
   }
 
+  // moveShip(ship, currentCoords) {
+  //   const [x, y] = currentCoords;
+  //   const { length } = ship;
+  //   let occupied = false;
+  //   const arr = [];
+  //   for (let i = 0; i < length; i += 1) {
+  //     if (y + length - 1 > 9 || x > 9 || x < 0 || y > 9 || y < 0) {
+  //       occupied = true;
+  //     } else if (this.board[x][y + i].ship === null) {
+  //       this.board[x][y + i].ship = ship;
+  //       arr.push({ x, y: y + i });
+  //     } else {
+  //       occupied = true;
+  //     }
+  //   }
+
+  //   if (occupied === true) return false;
+  //   Object.entries(this.ships).forEach(([key, value]) => {
+  //     if (value.length === length) {
+  //       this.ships[key].x = x;
+  //       this.ships[key].y = y;
+  //       this.ships[key].fullCoords = arr;
+  //     }
+  //   });
+
+  //   return true;
+  // }
+
   changeAxis(ship) {
     const { x, y, length } = ship;
     let occupied = false;
+    const arr = [{ x, y }];
     for (let i = 1; i < length; i += 1) {
       if (ship.rotated === false && this.board[x + i][y].ship === null) {
         this.board[x + i][y].ship = ship;
         this.board[x][y + i].ship = null;
+        arr.push({ x: x + i, y });
       } else if (ship.rotated === true && this.board[x][y + i].ship === null) {
         this.board[x][y + i].ship = ship;
         this.board[x + i][y].ship = null;
+        arr.push({ x, y: y + i });
       } else {
         occupied = true;
       }
@@ -133,6 +164,8 @@ export default class Gameboard {
     Object.entries(this.ships).forEach(([key, value]) => {
       if (value.length === length) {
         this.ships[key].rotated = !ship.rotated;
+        this.ships[key].fullCoords = arr;
+        console.log(arr);
       }
     });
 

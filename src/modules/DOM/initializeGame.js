@@ -112,7 +112,6 @@ function dragAndDrop() {
       // rotated ships
 
       function showOutlineRotated(a, b, shipObject) {
-        console.log(shipObject.rotated);
         const result = document.elementsFromPoint(a, b);
         const array = Array.from(result);
 
@@ -127,31 +126,37 @@ function dragAndDrop() {
             // and it's within the board
 
             const valueIndex = Number(fakeShip.classList[0][1]) - 1;
-
             if (fakeElement.parentNode.dataset.empty === "true") {
               let bool = true;
               let ourShip = fakeElement.parentNode;
               for (let j = 0; j < valueIndex; j += 1) {
                 if (
                   ourShip === null ||
+                  ourShip.parentNode.nextSibling === null ||
                   ourShip.parentNode.nextSibling.children[0] === null
                 ) {
                   bool = false;
                   break;
                 } else if (
-                  ourShip.parentNode.nextSibling.children[0].dataset.empty ===
-                  "true"
+                  ourShip.parentNode.nextSibling.children[
+                    Number(fakeElement.parentNode.dataset.Y)
+                  ].dataset.empty === "true"
                 ) {
                   bool = true;
                 } else {
                   bool = false;
                   break;
                 }
-                ourShip = ourShip.parentNode.nextSibling.firstChild;
+                const newShip =
+                  ourShip.parentNode.nextSibling.children[
+                    Number(fakeElement.parentNode.dataset.Y)
+                  ];
+                ourShip = newShip;
               }
               if (bool === false) {
-                element.removeChild(element.firstChild);
+                fakeElement.remove();
               } else {
+                fakeElement.remove();
                 element.appendChild(fakeShip);
                 fakeShip.style.border = "3px solid red";
                 fakeShip.style.top = "0";
@@ -185,7 +190,7 @@ function dragAndDrop() {
                     }
                   }
                   if (bool === false) {
-                    element.removeChild(element.firstChild);
+                    element.removeChild(fakeShip);
                   }
                 }
                 // });
@@ -206,7 +211,7 @@ function dragAndDrop() {
 
           const ships = Object.values(newGame.boards[0].ships);
           const valueIndex = Number(ship.classList[0][1]) - 1;
-          if (ship.rotated === false) {
+          if (!ship.classList.contains("rotated")) {
             showOutlineNotRotated(
               pageX - fakeShip.offsetWidth / 2,
               pageY - fakeShip.offsetHeight / 2,
@@ -221,11 +226,21 @@ function dragAndDrop() {
           }
         }
 
-        let myShip = ship.parentNode;
-        for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
-          if (myShip) {
-            myShip.dataset.empty = "true";
-            myShip = myShip.nextSibling;
+        if (!ship.classList.contains("rotated")) {
+          let myShip = ship.parentNode;
+          for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
+            if (myShip) {
+              myShip.dataset.empty = "true";
+              myShip = myShip.nextSibling;
+            }
+          }
+        } else {
+          let myShip = ship.parentNode;
+          for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
+            if (myShip) {
+              myShip.dataset.empty = "true";
+              myShip = myShip.parentNode.nextSibling.firstChild;
+            }
           }
         }
 
@@ -252,11 +267,18 @@ function dragAndDrop() {
           ship.style.top = "0";
           try {
             fakeShip.parentNode.replaceChild(ship, fakeShip);
-            if (ship.rotated === false) {
+
+            if (!ship.classList.contains("rotated")) {
               let myShip2 = ship.parentNode;
               for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
                 myShip2.dataset.empty = "false";
                 myShip2 = myShip2.nextSibling;
+              }
+            } else {
+              let myShip2 = ship.parentNode;
+              for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
+                myShip2.dataset.empty = "false";
+                myShip2 = myShip2.parentNode.nextSibling.firstChild;
               }
             }
           } catch (error) {
@@ -282,7 +304,6 @@ function dragAndDrop() {
       element.addEventListener("click", () => {
         const index = element.classList[0][1] - 1;
         newGame.boards[i].changeAxis(realPlayersShips[i][index]);
-        console.log(realPlayersShips[i][index]);
         printBoards();
         printShips(newGame.boards);
         rotateShips();
