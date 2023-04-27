@@ -49,7 +49,10 @@ function dragAndDrop() {
               let bool = true;
               let ourShip = fakeElement.parentNode;
               for (let j = 0; j < valueIndex; j += 1) {
-                if (ourShip.nextSibling.dataset.empty === "true") {
+                if (ourShip === null || ourShip.nextSibling === null) {
+                  bool = false;
+                  break;
+                } else if (ourShip.nextSibling.dataset.empty === "true") {
                   bool = true;
                 } else {
                   bool = false;
@@ -130,6 +133,8 @@ function dragAndDrop() {
             myShip = myShip.nextSibling;
           }
         }
+
+        // next step is handling rotated ship placement
 
         ship.style.border = "none";
         onMouseMove = (event2) => {
