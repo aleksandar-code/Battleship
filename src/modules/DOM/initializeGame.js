@@ -36,10 +36,8 @@ function dragAndDrop() {
             element.classList.contains("slot") &&
             element.dataset.empty === "true"
           ) {
-            element.appendChild(fakeShip);
-            fakeShip.style.border = "3px solid red";
-            fakeShip.style.top = "0";
-            fakeShip.style.left = "0";
+            const fakeElement = document.createElement("div");
+            element.appendChild(fakeElement);
             // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
             // and it's within the board
 
@@ -47,10 +45,11 @@ function dragAndDrop() {
             const shipsList = Object.values(newGame.boards[0].ships);
 
             // shipsList.forEach((elem) => {
-            if (fakeShip.parentNode.dataset.empty === "true") {
+            if (fakeElement.parentNode.dataset.empty === "true") {
               let bool = true;
-              let ourShip = fakeShip.parentNode;
+              let ourShip = fakeElement.parentNode;
               for (let j = 0; j < valueIndex; j += 1) {
+                console.log(ourShip.nextSibling);
                 if (ourShip.nextSibling.dataset.empty === "true") {
                   bool = true;
                 } else {
@@ -61,6 +60,11 @@ function dragAndDrop() {
               }
               if (bool === false) {
                 element.removeChild(element.firstChild);
+              } else {
+                element.appendChild(fakeShip);
+                fakeShip.style.border = "3px solid red";
+                fakeShip.style.top = "0";
+                fakeShip.style.left = "0";
               }
             }
             // });
@@ -78,23 +82,23 @@ function dragAndDrop() {
                 const valueIndex = Number(fakeShip.classList[0][1]) - 1;
                 const shipsList = Object.values(newGame.boards[0].ships);
 
-                shipsList.forEach((elem) => {
-                  if (fakeShip.parentNode.dataset.empty === "true") {
-                    let bool = true;
-                    const ourShip = fakeShip.parentNode;
-                    for (let j = 0; j < valueIndex; j += 1) {
-                      if (ourShip.nextSibling.dataset.empty === "true") {
-                        bool = true;
-                      } else {
-                        bool = false;
-                        break;
-                      }
-                    }
-                    if (bool === false) {
-                      element.removeChild(element.firstChild);
+                // shipsList.forEach((elem) => {
+                if (fakeShip.parentNode.dataset.empty === "true") {
+                  let bool = true;
+                  const ourShip = fakeShip.parentNode;
+                  for (let j = 0; j < valueIndex; j += 1) {
+                    if (ourShip.nextSibling.dataset.empty === "true") {
+                      bool = true;
+                    } else {
+                      bool = false;
+                      break;
                     }
                   }
-                });
+                  if (bool === false) {
+                    element.removeChild(element.firstChild);
+                  }
+                }
+                // });
                 // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
                 // and it's within the board
               }
@@ -120,13 +124,19 @@ function dragAndDrop() {
           );
         }
 
+        let myShip = ship.parentNode;
+        for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
+          myShip.dataset.empty = "true";
+          myShip = myShip.nextSibling;
+        }
+
         ship.style.border = "none";
         onMouseMove = (event2) => {
           ship.style.position = "absolute";
           ship.style.zIndex = 1000;
+
           document.body.append(ship);
           document.body.append(fakeShip);
-
           moveAt(event2.pageX, event2.pageY);
         };
 
@@ -140,6 +150,11 @@ function dragAndDrop() {
           ship.style.top = "0";
           try {
             fakeShip.parentNode.replaceChild(ship, fakeShip);
+            let myShip2 = ship.parentNode;
+            for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
+              myShip2.dataset.empty = "false";
+              myShip2 = myShip2.nextSibling;
+            }
           } catch (error) {
             console.log(error);
           }

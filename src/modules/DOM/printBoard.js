@@ -1,6 +1,5 @@
 const printShips = (boards) => {
-  const board = document.querySelectorAll(".board");
-  const array = Array.from(board[0].children);
+  const array = document.querySelectorAll(".player .slot");
   const boardData = Object.values(boards[0].ships);
   // const array2 = Array.from(board[1].children);
   // const boardData2 = Object.values(boards[1].ships);
@@ -49,14 +48,17 @@ const printBoards = () => {
   board[1].innerHTML = "";
   for (let i = 0; i < 2; i += 1) {
     for (let x = 0; x < 10; x += 1) {
+      const row = document.createElement("div");
+      row.classList.add("row");
       for (let y = 0; y < 10; y += 1) {
         const slot = document.createElement("div");
         slot.classList.add("slot");
         slot.dataset.X = x;
         slot.dataset.Y = y;
         slot.dataset.empty = "true";
-        board[i].appendChild(slot);
+        row.appendChild(slot);
       }
+      board[i].appendChild(row);
     }
   }
 };
