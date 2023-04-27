@@ -8,6 +8,7 @@ export default class Ship {
     this.rotated = false;
     this.x = null;
     this.y = null;
+    this.fullCoords = [];
   }
 
   hit() {

@@ -27,16 +27,34 @@ function dragAndDrop() {
 
       let onMouseMove;
 
-      function showOutline(a, b) {
+      function showOutline(a, b, shipObject) {
         const result = document.elementsFromPoint(a, b);
         const array = Array.from(result);
 
         array.forEach((element) => {
-          if (element.classList.contains("slot")) {
-            fakeShip.style.border = "3px solid red";
+          if (
+            element.classList.contains("slot") &&
+            element.dataset.empty === "true"
+          ) {
             element.appendChild(fakeShip);
+            fakeShip.style.border = "3px solid red";
             fakeShip.style.top = "0";
             fakeShip.style.left = "0";
+          }
+          if (element.classList.contains("slot")) {
+            for (let idx = 0; idx < shipObject.length; idx += 1) {
+              if (
+                Number(element.dataset.X) === shipObject.fullCoords[idx].x &&
+                Number(element.dataset.Y) === shipObject.fullCoords[idx].y
+              ) {
+                element.appendChild(fakeShip);
+                fakeShip.style.border = "3px solid red";
+                fakeShip.style.top = "0";
+                fakeShip.style.left = "0";
+
+                // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
+              }
+            }
           }
         });
       }
@@ -48,9 +66,13 @@ function dragAndDrop() {
           ship.style.left = `${pageX - ship.offsetWidth / 2}px`;
           ship.style.top = `${pageY - ship.offsetHeight / 2}px`;
 
+          const ships = Object.values(newGame.boards[0].ships);
+          const valueIndex = Number(ship.classList[0][1]) - 1;
+
           showOutline(
             pageX - fakeShip.offsetWidth / 2,
-            pageY - fakeShip.offsetHeight / 2
+            pageY - fakeShip.offsetHeight / 2,
+            ships[valueIndex]
           );
         }
 

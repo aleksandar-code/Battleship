@@ -11,7 +11,6 @@ const printShips = (boards) => {
     element.classList.add("ship");
     if (ship.rotated === true) element.classList.add("rotated");
     const data = { x: ship.x, y: ship.y };
-
     array.forEach((slot, index) => {
       if (
         Number(slot.dataset.X) === data.x &&
@@ -19,6 +18,14 @@ const printShips = (boards) => {
       ) {
         array[index].appendChild(element);
       }
+      ship.fullCoords.forEach((coords) => {
+        if (
+          Number(slot.dataset.X) === coords.x &&
+          Number(slot.dataset.Y) === coords.y
+        ) {
+          array[index].dataset.empty = "false";
+        }
+      });
     });
   });
 
@@ -47,6 +54,7 @@ const printBoards = () => {
         slot.classList.add("slot");
         slot.dataset.X = x;
         slot.dataset.Y = y;
+        slot.dataset.empty = "true";
         board[i].appendChild(slot);
       }
     }
