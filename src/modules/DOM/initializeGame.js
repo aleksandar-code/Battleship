@@ -40,6 +40,29 @@ function dragAndDrop() {
             fakeShip.style.border = "3px solid red";
             fakeShip.style.top = "0";
             fakeShip.style.left = "0";
+            // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
+            // and it's within the board
+
+            const valueIndex = Number(fakeShip.classList[0][1]) - 1;
+            const shipsList = Object.values(newGame.boards[0].ships);
+
+            shipsList.forEach((elem) => {
+              if (fakeShip.parentNode.dataset.empty === "true") {
+                let bool = true;
+                const ourShip = fakeShip.parentNode;
+                for (let j = 0; j < valueIndex; j += 1) {
+                  if (ourShip.nextSibling.dataset.empty === "true") {
+                    bool = true;
+                  } else {
+                    bool = false;
+                    break;
+                  }
+                }
+                if (bool === false) {
+                  element.removeChild(element.firstChild);
+                }
+              }
+            });
           }
           if (element.classList.contains("slot")) {
             for (let idx = 0; idx < shipObject.length; idx += 1) {
@@ -51,8 +74,28 @@ function dragAndDrop() {
                 fakeShip.style.border = "3px solid red";
                 fakeShip.style.top = "0";
                 fakeShip.style.left = "0";
+                const valueIndex = Number(fakeShip.classList[0][1]) - 1;
+                const shipsList = Object.values(newGame.boards[0].ships);
 
+                shipsList.forEach((elem) => {
+                  if (fakeShip.parentNode.dataset.empty === "true") {
+                    let bool = true;
+                    const ourShip = fakeShip.parentNode;
+                    for (let j = 0; j < valueIndex; j += 1) {
+                      if (ourShip.nextSibling.dataset.empty === "true") {
+                        bool = true;
+                      } else {
+                        bool = false;
+                        break;
+                      }
+                    }
+                    if (bool === false) {
+                      element.removeChild(element.firstChild);
+                    }
+                  }
+                });
                 // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
+                // and it's within the board
               }
             }
           }
