@@ -27,7 +27,7 @@ function dragAndDrop() {
 
       let onMouseMove;
 
-      function showOutline(a, b, shipObject) {
+      function showOutlineNotRotated(a, b, shipObject) {
         const result = document.elementsFromPoint(a, b);
         const array = Array.from(result);
 
@@ -109,6 +109,94 @@ function dragAndDrop() {
         });
       }
 
+      // rotated ships
+
+      function showOutlineRotated(a, b, shipObject) {
+        console.log(shipObject.rotated);
+        const result = document.elementsFromPoint(a, b);
+        const array = Array.from(result);
+
+        array.forEach((element) => {
+          if (
+            element.classList.contains("slot") &&
+            element.dataset.empty === "true"
+          ) {
+            const fakeElement = document.createElement("div");
+            element.appendChild(fakeElement);
+            // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
+            // and it's within the board
+
+            const valueIndex = Number(fakeShip.classList[0][1]) - 1;
+
+            if (fakeElement.parentNode.dataset.empty === "true") {
+              let bool = true;
+              let ourShip = fakeElement.parentNode;
+              for (let j = 0; j < valueIndex; j += 1) {
+                if (
+                  ourShip === null ||
+                  ourShip.parentNode.nextSibling.children[0] === null
+                ) {
+                  bool = false;
+                  break;
+                } else if (
+                  ourShip.parentNode.nextSibling.children[0].dataset.empty ===
+                  "true"
+                ) {
+                  bool = true;
+                } else {
+                  bool = false;
+                  break;
+                }
+                ourShip = ourShip.parentNode.nextSibling.firstChild;
+              }
+              if (bool === false) {
+                element.removeChild(element.firstChild);
+              } else {
+                element.appendChild(fakeShip);
+                fakeShip.style.border = "3px solid red";
+                fakeShip.style.top = "0";
+                fakeShip.style.left = "0";
+              }
+            }
+          }
+          if (element.classList.contains("slot")) {
+            for (let idx = 0; idx < shipObject.length; idx += 1) {
+              if (
+                Number(element.dataset.X) === shipObject.fullCoords[idx].x &&
+                Number(element.dataset.Y) === shipObject.fullCoords[idx].y
+              ) {
+                element.appendChild(fakeShip);
+                fakeShip.style.border = "3px solid red";
+                fakeShip.style.top = "0";
+                fakeShip.style.left = "0";
+                const valueIndex = Number(fakeShip.classList[0][1]) - 1;
+                const shipsList = Object.values(newGame.boards[0].ships);
+
+                // shipsList.forEach((elem) => {
+                if (fakeShip.parentNode.dataset.empty === "true") {
+                  let bool = true;
+                  const ourShip = fakeShip.parentNode;
+                  for (let j = 0; j < valueIndex; j += 1) {
+                    if (ourShip.nextSibling.dataset.empty === "true") {
+                      bool = true;
+                    } else {
+                      bool = false;
+                      break;
+                    }
+                  }
+                  if (bool === false) {
+                    element.removeChild(element.firstChild);
+                  }
+                }
+                // });
+                // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
+                // and it's within the board
+              }
+            }
+          }
+        });
+      }
+
       ship.onmousedown = () => {
         function moveAt(pageX, pageY) {
           fakeShip.style.left = `${pageX - ship.offsetWidth / 2}px`;
@@ -118,12 +206,19 @@ function dragAndDrop() {
 
           const ships = Object.values(newGame.boards[0].ships);
           const valueIndex = Number(ship.classList[0][1]) - 1;
-
-          showOutline(
-            pageX - fakeShip.offsetWidth / 2,
-            pageY - fakeShip.offsetHeight / 2,
-            ships[valueIndex]
-          );
+          if (ship.rotated === false) {
+            showOutlineNotRotated(
+              pageX - fakeShip.offsetWidth / 2,
+              pageY - fakeShip.offsetHeight / 2,
+              ships[valueIndex]
+            );
+          } else {
+            showOutlineRotated(
+              pageX - fakeShip.offsetWidth / 2,
+              pageY - fakeShip.offsetHeight / 2,
+              ships[valueIndex]
+            );
+          }
         }
 
         let myShip = ship.parentNode;
@@ -157,10 +252,12 @@ function dragAndDrop() {
           ship.style.top = "0";
           try {
             fakeShip.parentNode.replaceChild(ship, fakeShip);
-            let myShip2 = ship.parentNode;
-            for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
-              myShip2.dataset.empty = "false";
-              myShip2 = myShip2.nextSibling;
+            if (ship.rotated === false) {
+              let myShip2 = ship.parentNode;
+              for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
+                myShip2.dataset.empty = "false";
+                myShip2 = myShip2.nextSibling;
+              }
             }
           } catch (error) {
             console.log(error);
