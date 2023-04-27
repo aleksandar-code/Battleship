@@ -46,23 +46,24 @@ function dragAndDrop() {
             const valueIndex = Number(fakeShip.classList[0][1]) - 1;
             const shipsList = Object.values(newGame.boards[0].ships);
 
-            shipsList.forEach((elem) => {
-              if (fakeShip.parentNode.dataset.empty === "true") {
-                let bool = true;
-                const ourShip = fakeShip.parentNode;
-                for (let j = 0; j < valueIndex; j += 1) {
-                  if (ourShip.nextSibling.dataset.empty === "true") {
-                    bool = true;
-                  } else {
-                    bool = false;
-                    break;
-                  }
+            // shipsList.forEach((elem) => {
+            if (fakeShip.parentNode.dataset.empty === "true") {
+              let bool = true;
+              let ourShip = fakeShip.parentNode;
+              for (let j = 0; j < valueIndex; j += 1) {
+                if (ourShip.nextSibling.dataset.empty === "true") {
+                  bool = true;
+                } else {
+                  bool = false;
+                  break;
                 }
-                if (bool === false) {
-                  element.removeChild(element.firstChild);
-                }
+                ourShip = ourShip.nextSibling;
               }
-            });
+              if (bool === false) {
+                element.removeChild(element.firstChild);
+              }
+            }
+            // });
           }
           if (element.classList.contains("slot")) {
             for (let idx = 0; idx < shipObject.length; idx += 1) {
