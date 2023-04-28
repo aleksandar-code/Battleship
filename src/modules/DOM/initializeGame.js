@@ -239,11 +239,11 @@ function dragAndDrop() {
           }
         }
 
+        const initialSlot = ship.parentNode;
         ship.style.border = "none";
         onMouseMove = (event2) => {
           ship.style.position = "absolute";
           ship.style.zIndex = 1000;
-
           document.body.append(ship);
           document.body.append(fakeShip);
 
@@ -270,7 +270,7 @@ function dragAndDrop() {
               ];
               newGame.boards[0].placeShip(ships[valueIndex], coords);
             } catch (error) {
-              console.log("");
+              initialSlot.appendChild(ship);
             }
 
             if (!ship.classList.contains("rotated")) {
