@@ -6,6 +6,8 @@ newGame.gameLoop();
 printBoards();
 printShips(newGame.boards);
 let rotateShips;
+let dragAndDrop;
+let hittingSlots;
 function gameOverCard() {
   const element = document.createElement("div");
   element.classList.add("gameover-card");
@@ -21,9 +23,12 @@ function gameOverCard() {
     newGame = new Game();
     newGame.gameLoop();
     element.remove();
+    document.body.style.pointerEvents = "";
     printBoards();
     printShips(newGame.boards);
     rotateShips();
+    dragAndDrop();
+    hittingSlots();
   });
 }
 
@@ -52,7 +57,7 @@ function isSunk(ship) {
   });
 }
 
-function hittingSlots() {
+hittingSlots = () => {
   console.log("hitting listener");
   const nodeList = document.querySelectorAll(".computer .slot");
   const computerSlots = Array.from(nodeList);
@@ -85,9 +90,9 @@ function hittingSlots() {
       }
     });
   });
-}
+};
 
-function dragAndDrop() {
+dragAndDrop = () => {
   const playerShips = document.querySelectorAll(".player .ship");
   // const computerShips = document.querySelectorAll(".computer .ship");
   const playersShips = [Array.from(playerShips)];
@@ -418,7 +423,7 @@ function dragAndDrop() {
       };
     });
   });
-}
+};
 
 rotateShips = () => {
   const realPlayerShips = Object.values(newGame.boards[0].ships);
@@ -447,3 +452,4 @@ hittingSlots();
 // Implement ship placement link between backend & frontend refactor drag and drop and move it to another module?
 // add computer board into the equation, implement ship hitting.
 // is what i'm doing with the dom right? It feels like i'm doing too much of validations here.
+// add a function to randomize ship placement on the computer board, add player vs player
