@@ -117,6 +117,7 @@ export default class Gameboard {
           arr.push({ x: x + i, y });
         } else {
           occupied = true;
+          break;
         }
       }
     }
@@ -148,8 +149,10 @@ export default class Gameboard {
         arr.push({ x, y: y + i });
       } else {
         occupied = true;
+        break;
       }
     }
+    this.prettyPrintBoard();
 
     if (occupied === true) return false;
 

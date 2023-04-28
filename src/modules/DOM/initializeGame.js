@@ -228,14 +228,19 @@ function dragAndDrop() {
           }
         } else if (ship.classList.contains("rotated")) {
           let myShip = ship.parentNode;
-          for (let s = 0; s < Number(ship.classList[0][1]) - 1; s += 1) {
-            if (myShip) {
-              myShip.dataset.empty = "true";
-              myShip =
-                myShip.parentNode.nextSibling.children[
-                  Number(ship.parentNode.dataset.Y)
-                ];
-            }
+          for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
+            if (
+              myShip === null ||
+              myShip.parentNode === null ||
+              myShip.parentNode.nextSibling === null
+            )
+              break;
+
+            myShip.dataset.empty = "true";
+            myShip =
+              myShip.parentNode.nextSibling.children[
+                Number(ship.parentNode.dataset.Y)
+              ];
           }
         }
 
@@ -271,17 +276,26 @@ function dragAndDrop() {
               newGame.boards[0].placeShip(ships[valueIndex], coords);
             } catch (error) {
               initialSlot.appendChild(ship);
+              console.log(error);
             }
 
             if (!ship.classList.contains("rotated")) {
               let myShip2 = ship.parentNode;
               for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
-                myShip2.dataset.empty = "false";
-                myShip2 = myShip2.nextSibling;
+                if (myShip2) {
+                  myShip2.dataset.empty = "false";
+                  myShip2 = myShip2.nextSibling;
+                }
               }
             } else if (ship.classList.contains("rotated")) {
               let myShip2 = ship.parentNode;
-              for (let s = 0; s < Number(ship.classList[0][1]) - 1; s += 1) {
+              for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
+                if (
+                  myShip2 === null ||
+                  myShip2.parentNode === null ||
+                  myShip2.parentNode.nextSibling === null
+                )
+                  break;
                 myShip2.dataset.empty = "false";
                 myShip2 =
                   myShip2.parentNode.nextSibling.children[
