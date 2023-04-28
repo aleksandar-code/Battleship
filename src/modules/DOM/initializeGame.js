@@ -276,6 +276,14 @@ function dragAndDrop() {
               newGame.boards[0].placeShip(ships[valueIndex], coords);
             } catch (error) {
               initialSlot.appendChild(ship);
+
+              const ships = Object.values(newGame.boards[0].ships);
+              const valueIndex = Number(ship.classList[0][1]) - 1;
+              const coords = [
+                Number(initialSlot.dataset.X),
+                Number(initialSlot.dataset.Y),
+              ];
+              newGame.boards[0].placeShip(ships[valueIndex], coords);
               console.log(error);
             }
 
