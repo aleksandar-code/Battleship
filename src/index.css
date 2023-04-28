@@ -88,6 +88,10 @@ body {
   z-index: 1000;
 }
 
+.computer .ship {
+  cursor: auto!important;
+}
+
 .l5 {
   width: calc(50px * 5);
 }

@@ -1,16 +1,30 @@
 import { printBoards, printShips } from "./printBoard";
 import Game from "../game";
 
-const newGame = new Game();
+let newGame = new Game();
 newGame.gameLoop();
 printBoards();
 printShips(newGame.boards);
-
+let rotateShips;
 function gameOverCard() {
   const element = document.createElement("div");
   element.classList.add("gameover-card");
-  element.textContent = "Game over";
+  const title = document.createElement("h3");
+  title.textContent = "Game over";
+  const btn = document.createElement("button");
+  btn.classList.add("Replay");
+  btn.textContent = "Replay";
+  element.append(title, btn);
   document.body.appendChild(element);
+  element.style.pointerEvents = "all";
+  btn.addEventListener("click", () => {
+    newGame = new Game();
+    newGame.gameLoop();
+    element.remove();
+    printBoards();
+    printShips(newGame.boards);
+    rotateShips();
+  });
 }
 
 function allSunk() {
@@ -406,7 +420,7 @@ function dragAndDrop() {
   });
 }
 
-(function rotateShips() {
+rotateShips = () => {
   const realPlayerShips = Object.values(newGame.boards[0].ships);
   // const realComputerShips = Object.values(newGame.boards[1].ships);
   const playerShips = document.querySelectorAll(".player .ship");
@@ -426,8 +440,8 @@ function dragAndDrop() {
       });
     });
   });
-})();
-
+};
+rotateShips();
 dragAndDrop();
 hittingSlots();
 // Implement ship placement link between backend & frontend refactor drag and drop and move it to another module?
