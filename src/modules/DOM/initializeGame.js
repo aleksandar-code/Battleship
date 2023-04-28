@@ -294,3 +294,7 @@ function dragAndDrop() {
     });
   });
 })();
+
+// refactor drag and drop and move it to another module?
+// add computer board into the equation, implement ship hitting.
+// is what i'm doing with the dom right? It feels like i'm doing too much of validations here.
