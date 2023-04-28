@@ -32,6 +32,13 @@ body {
   width: 500px;
 }
 
+.gameover-card {
+  position: absolute;
+  z-index: 1111;
+  font-size: 3rem;
+  background: white;
+}
+
 .slot {
   border: 1px solid rgba(16, 116, 146, 0.548); 
   display: flex;
@@ -40,13 +47,45 @@ body {
   position: relative;
 }
 
+.slot.sunk {
+  background-color: red;  
+}
+
+.slot.hit {
+  border: 3px solid red;
+}
+
+.slot.hit-ship {
+  border: 3px solid purple;  
+}
+
+.slot.hit-ship:before, .slot.hit-ship:after {
+  position: absolute;
+  content: '';
+  background: red;
+  display: block;
+  width: 100%;
+  height: 30px;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.slot.hit-ship:after {
+  -webkit-transform: rotate(45deg);    
+  transform: rotate(45deg);
+}
 
 .ship {
   height: 50px;
   border: 3px solid yellow;
   cursor: move!important;
   position: absolute!important;
-  z-index: 1;
+  z-index: 1000;
 }
 
 .l5 {

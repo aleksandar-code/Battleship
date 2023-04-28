@@ -60,12 +60,16 @@ export default class Gameboard {
 
   receiveAttack(x, y) {
     const node = this.board[x][y];
+    let bool;
     if (node.ship === null && node.bombed === false) {
       node.bombed = true;
+      bool = false;
     } else if (node.ship !== null && node.bombed === false) {
       node.bombed = true;
       node.ship.hit();
+      bool = true;
     }
+    return bool;
   }
 
   isGameLost() {

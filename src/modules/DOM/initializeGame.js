@@ -6,6 +6,38 @@ newGame.gameLoop();
 printBoards();
 printShips(newGame.boards);
 
+function gameOverCard() {
+  const element = document.createElement("div");
+  element.classList.add("gameover-card");
+  element.textContent = "Game over";
+  document.body.appendChild(element);
+}
+
+function allSunk() {
+  console.log("game over");
+  document.body.style.pointerEvents = "none";
+}
+
+function isSunk(ship) {
+  console.log("ship is sunk");
+  console.log(ship);
+  const element = document.createElement("div");
+  element.classList.add(`l${ship.length}`);
+  element.classList.add("ship");
+  if (ship.rotated === true) element.classList.add("rotated");
+
+  const nodeList = document.querySelectorAll(".computer .slot");
+  const computerSlots = Array.from(nodeList);
+  computerSlots.forEach((slot) => {
+    if (
+      Number(slot.dataset.X) === ship.x &&
+      Number(slot.dataset.Y) === ship.y
+    ) {
+      slot.appendChild(element);
+    }
+  });
+}
+
 function hittingSlots() {
   console.log("hitting listener");
   const nodeList = document.querySelectorAll(".computer .slot");
@@ -14,11 +46,28 @@ function hittingSlots() {
 
   computerSlots.forEach((slot, index) => {
     slot.addEventListener("click", () => {
-      if (slot.textContent === "") {
-        computerSlots[index].textContent = "X";
+      if (
+        !slot.classList.contains("hit") &&
+        !slot.classList.contains("hit-ship")
+      ) {
         const x = slot.dataset.X;
         const y = slot.dataset.Y;
-        newGame.boards[1].receiveAttack(x, y);
+        const bool = newGame.boards[1].receiveAttack(x, y);
+        if (bool === false) {
+          computerSlots[index].classList.add("hit");
+        } else {
+          computerSlots[index].classList.add("hit-ship");
+          console.log(computerSlots[index]);
+
+          const myShip = newGame.boards[1].board[x][y].ship;
+          if (myShip !== null) {
+            if (myShip.sunk === true) isSunk(myShip);
+            if (newGame.boards[1].isGameLost()) {
+              allSunk();
+              gameOverCard();
+            }
+          }
+        }
       }
     });
   });
