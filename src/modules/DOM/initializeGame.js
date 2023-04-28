@@ -6,10 +6,28 @@ newGame.gameLoop();
 printBoards();
 printShips(newGame.boards);
 
+function hittingSlots() {
+  console.log("hitting listener");
+  const nodeList = document.querySelectorAll(".computer .slot");
+  const computerSlots = Array.from(nodeList);
+  console.log(computerSlots);
+
+  computerSlots.forEach((slot, index) => {
+    slot.addEventListener("click", () => {
+      if (slot.textContent === "") {
+        computerSlots[index].textContent = "X";
+        const x = slot.dataset.X;
+        const y = slot.dataset.Y;
+        newGame.boards[1].receiveAttack(x, y);
+      }
+    });
+  });
+}
+
 function dragAndDrop() {
   const playerShips = document.querySelectorAll(".player .ship");
-  const computerShips = document.querySelectorAll(".computer .ship");
-  const playersShips = [Array.from(playerShips), Array.from(computerShips)];
+  // const computerShips = document.querySelectorAll(".computer .ship");
+  const playersShips = [Array.from(playerShips)];
 
   playersShips.forEach((arr, index) => {
     arr.forEach((_, i) => {
@@ -68,6 +86,9 @@ function dragAndDrop() {
           } else if (element.classList.contains("slot")) {
             let myElem = element;
             for (let idx = 0; idx < shipObject.length; idx += 1) {
+              if (myElem === null) {
+                break;
+              }
               if (
                 Number(myElem.dataset.X) === shipObject.fullCoords[idx].x &&
                 Number(myElem.dataset.Y) === shipObject.fullCoords[idx].y
@@ -152,6 +173,9 @@ function dragAndDrop() {
           } else if (element.classList.contains("slot")) {
             let myElem = element;
             for (let idx = 0; idx < shipObject.length; idx += 1) {
+              if (myElem === null) {
+                break;
+              }
               if (
                 Number(myElem.dataset.X) === shipObject.fullCoords[idx].x &&
                 Number(myElem.dataset.Y) === shipObject.fullCoords[idx].y
@@ -265,15 +289,28 @@ function dragAndDrop() {
           ship.style.top = "0";
           if (fakeShip.parentNode !== null) {
             try {
-              fakeShip.parentNode.replaceChild(ship, fakeShip);
+              if (document.querySelector(".player").contains(fakeShip)) {
+                fakeShip.parentNode.replaceChild(ship, fakeShip);
 
-              const ships = Object.values(newGame.boards[0].ships);
-              const valueIndex = Number(ship.classList[0][1]) - 1;
-              const coords = [
-                Number(ship.parentNode.dataset.X),
-                Number(ship.parentNode.dataset.Y),
-              ];
-              newGame.boards[0].placeShip(ships[valueIndex], coords);
+                const ships = Object.values(newGame.boards[0].ships);
+                const valueIndex = Number(ship.classList[0][1]) - 1;
+                const coords = [
+                  Number(ship.parentNode.dataset.X),
+                  Number(ship.parentNode.dataset.Y),
+                ];
+                newGame.boards[0].placeShip(ships[valueIndex], coords);
+              } else {
+                initialSlot.appendChild(ship);
+
+                const ships = Object.values(newGame.boards[0].ships);
+                const valueIndex = Number(ship.classList[0][1]) - 1;
+                const coords = [
+                  Number(initialSlot.dataset.X),
+                  Number(initialSlot.dataset.Y),
+                ];
+                newGame.boards[0].placeShip(ships[valueIndex], coords);
+                fakeShip.remove();
+              }
             } catch (error) {
               initialSlot.appendChild(ship);
 
@@ -322,11 +359,11 @@ function dragAndDrop() {
 
 (function rotateShips() {
   const realPlayerShips = Object.values(newGame.boards[0].ships);
-  const realComputerShips = Object.values(newGame.boards[1].ships);
+  // const realComputerShips = Object.values(newGame.boards[1].ships);
   const playerShips = document.querySelectorAll(".player .ship");
-  const computerShips = document.querySelectorAll(".computer .ship");
-  const playersShips = [Array.from(playerShips), Array.from(computerShips)];
-  const realPlayersShips = [realPlayerShips, realComputerShips];
+  // const computerShips = document.querySelectorAll(".computer .ship");
+  const playersShips = [Array.from(playerShips)];
+  const realPlayersShips = [realPlayerShips];
   playersShips.forEach((arr, i) => {
     arr.forEach((element) => {
       element.addEventListener("click", () => {
@@ -334,6 +371,7 @@ function dragAndDrop() {
         newGame.boards[i].changeAxis(realPlayersShips[i][index]);
         printBoards();
         printShips(newGame.boards);
+        hittingSlots();
         rotateShips();
         dragAndDrop();
       });
@@ -342,6 +380,7 @@ function dragAndDrop() {
 })();
 
 dragAndDrop();
+hittingSlots();
 // Implement ship placement link between backend & frontend refactor drag and drop and move it to another module?
 // add computer board into the equation, implement ship hitting.
 // is what i'm doing with the dom right? It feels like i'm doing too much of validations here.

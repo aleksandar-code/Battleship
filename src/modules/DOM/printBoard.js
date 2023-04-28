@@ -1,8 +1,8 @@
 const printShips = (boards) => {
   const array = document.querySelectorAll(".player .slot");
   const boardData = Object.values(boards[0].ships);
-  // const array2 = Array.from(board[1].children);
-  // const boardData2 = Object.values(boards[1].ships);
+  const array2 = document.querySelectorAll(".computer .slot");
+  const boardData2 = Object.values(boards[1].ships);
 
   boardData.forEach((ship) => {
     const element = document.createElement("div");
@@ -28,17 +28,29 @@ const printShips = (boards) => {
     });
   });
 
-  // boardData2.forEach((element) => {
-  //   const ship = document.createElement("div");
-  //   ship.classList.add(`l${element.length}`);
-  //   ship.classList.add("ship");
-  //   if (element.rotated === true) ship.classList.add("rotated");
-  //   array2.forEach((slot) => {
-  //     if (slot.dataset.X === element.x && slot.dataset.Y === element.y) {
-  //       slot.appendChild(ship);
-  //     }
-  //   });
-  // });
+  boardData2.forEach((ship) => {
+    const element = document.createElement("div");
+    element.classList.add(`l${ship.length}`);
+    element.classList.add("ship");
+    if (ship.rotated === true) element.classList.add("rotated");
+    const data = { x: ship.x, y: ship.y };
+    array2.forEach((slot, index) => {
+      if (
+        Number(slot.dataset.X) === data.x &&
+        Number(slot.dataset.Y) === data.y
+      ) {
+        array2[index].appendChild(element);
+      }
+      ship.fullCoords.forEach((coords) => {
+        if (
+          Number(slot.dataset.X) === coords.x &&
+          Number(slot.dataset.Y) === coords.y
+        ) {
+          array2[index].dataset.empty = "false";
+        }
+      });
+    });
+  });
 };
 
 const printBoards = () => {
