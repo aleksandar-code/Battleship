@@ -129,11 +129,6 @@ function dragAndDrop() {
                     Number(fakeElement.parentNode.dataset.Y)
                   ].dataset.empty === "true"
                 ) {
-                  console.log(
-                    ourShip.parentNode.nextSibling.children[
-                      Number(fakeElement.parentNode.dataset.Y)
-                    ]
-                  );
                   bool = true;
                 } else {
                   bool = false;
@@ -260,6 +255,7 @@ function dragAndDrop() {
           if (fakeShip.parentNode !== null) {
             try {
               fakeShip.parentNode.replaceChild(ship, fakeShip);
+
               const ships = Object.values(newGame.boards[0].ships);
               const valueIndex = Number(ship.classList[0][1]) - 1;
               const coords = [
@@ -274,14 +270,12 @@ function dragAndDrop() {
             if (!ship.classList.contains("rotated")) {
               let myShip2 = ship.parentNode;
               for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
-                console.log({ notRotated: myShip2 });
                 myShip2.dataset.empty = "false";
                 myShip2 = myShip2.nextSibling;
               }
             } else if (ship.classList.contains("rotated")) {
               let myShip2 = ship.parentNode;
               for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
-                console.log(myShip2);
                 myShip2.dataset.empty = "false";
                 myShip2 =
                   myShip2.parentNode.nextSibling.children[
@@ -290,6 +284,7 @@ function dragAndDrop() {
               }
             }
           }
+
           ship.onmouseup = null;
         };
       };
@@ -304,7 +299,6 @@ function dragAndDrop() {
   const computerShips = document.querySelectorAll(".computer .ship");
   const playersShips = [Array.from(playerShips), Array.from(computerShips)];
   const realPlayersShips = [realPlayerShips, realComputerShips];
-  dragAndDrop();
   playersShips.forEach((arr, i) => {
     arr.forEach((element) => {
       element.addEventListener("click", () => {
@@ -319,6 +313,7 @@ function dragAndDrop() {
   });
 })();
 
+dragAndDrop();
 // Implement ship placement link between backend & frontend refactor drag and drop and move it to another module?
 // add computer board into the equation, implement ship hitting.
 // is what i'm doing with the dom right? It feels like i'm doing too much of validations here.
