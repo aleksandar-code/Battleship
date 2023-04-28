@@ -92,7 +92,6 @@ export default class Gameboard {
     const arr = [];
 
     // remove ship from board if it already exists
-
     const shipCoords = ship.fullCoords;
     shipCoords.forEach((element) => {
       this.board[element.x][element.y].ship = null;
@@ -111,7 +110,7 @@ export default class Gameboard {
       }
     } else if (ship.rotated === true) {
       for (let i = 0; i < length; i += 1) {
-        if (y + length - 1 > 9 || x > 9 || x < 0 || y > 9 || y < 0) {
+        if (x + length - 1 > 9 || x > 9 || x < 0 || y > 9 || y < 0) {
           occupied = true;
         } else if (this.board[x + i][y].ship === null) {
           this.board[x + i][y].ship = ship;

@@ -179,6 +179,14 @@ function dragAndDrop() {
                   }
                 }
               }
+
+              if (
+                myElem === null ||
+                myElem.parentNode === null ||
+                myElem.parentNode.nextSibling === null
+              ) {
+                break;
+              }
               myElem =
                 myElem.parentNode.nextSibling.children[
                   Number(element.dataset.Y)
@@ -222,7 +230,7 @@ function dragAndDrop() {
           }
         } else if (ship.classList.contains("rotated")) {
           let myShip = ship.parentNode;
-          for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
+          for (let s = 0; s < Number(ship.classList[0][1]) - 1; s += 1) {
             if (myShip) {
               myShip.dataset.empty = "true";
               myShip =
@@ -275,7 +283,7 @@ function dragAndDrop() {
               }
             } else if (ship.classList.contains("rotated")) {
               let myShip2 = ship.parentNode;
-              for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
+              for (let s = 0; s < Number(ship.classList[0][1]) - 1; s += 1) {
                 myShip2.dataset.empty = "false";
                 myShip2 =
                   myShip2.parentNode.nextSibling.children[
