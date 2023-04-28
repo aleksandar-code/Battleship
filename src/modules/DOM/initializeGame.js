@@ -65,8 +65,7 @@ function dragAndDrop() {
                 fakeShip.style.left = "0";
               }
             }
-          }
-          if (element.classList.contains("slot")) {
+          } else if (element.classList.contains("slot")) {
             let myElem = element;
             for (let idx = 0; idx < shipObject.length; idx += 1) {
               if (
@@ -150,8 +149,7 @@ function dragAndDrop() {
                 fakeElement.remove();
               }
             }
-          }
-          if (element.classList.contains("slot")) {
+          } else if (element.classList.contains("slot")) {
             let myElem = element;
             for (let idx = 0; idx < shipObject.length; idx += 1) {
               if (

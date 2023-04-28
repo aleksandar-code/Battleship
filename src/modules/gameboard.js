@@ -169,7 +169,11 @@ export default class Gameboard {
     myBoard.forEach((row, x) => {
       row.forEach((col, y) => {
         if (col.ship) {
-          myBoard[x][y] = "SHIP";
+          if (col.ship.rotated) {
+            myBoard[x][y] = "^";
+          } else if (col.ship.rotated === false) {
+            myBoard[x][y] = "<";
+          }
         } else {
           myBoard[x][y] = null;
         }
