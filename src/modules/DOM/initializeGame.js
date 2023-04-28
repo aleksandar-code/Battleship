@@ -38,13 +38,8 @@ function dragAndDrop() {
           ) {
             const fakeElement = document.createElement("div");
             element.appendChild(fakeElement);
-            // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
-            // and it's within the board
 
             const valueIndex = Number(fakeShip.classList[0][1]) - 1;
-            const shipsList = Object.values(newGame.boards[0].ships);
-
-            // shipsList.forEach((elem) => {
             if (fakeElement.parentNode.dataset.empty === "true") {
               let bool = true;
               let ourShip = fakeElement.parentNode;
@@ -69,7 +64,6 @@ function dragAndDrop() {
                 fakeShip.style.left = "0";
               }
             }
-            // });
           }
           if (element.classList.contains("slot")) {
             for (let idx = 0; idx < shipObject.length; idx += 1) {
@@ -82,9 +76,6 @@ function dragAndDrop() {
                 fakeShip.style.top = "0";
                 fakeShip.style.left = "0";
                 const valueIndex = Number(fakeShip.classList[0][1]) - 1;
-                const shipsList = Object.values(newGame.boards[0].ships);
-
-                // shipsList.forEach((elem) => {
                 if (fakeShip.parentNode.dataset.empty === "true") {
                   let bool = true;
                   const ourShip = fakeShip.parentNode;
@@ -100,16 +91,11 @@ function dragAndDrop() {
                     element.removeChild(element.firstChild);
                   }
                 }
-                // });
-                // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
-                // and it's within the board
               }
             }
           }
         });
       }
-
-      // rotated ships
 
       function showOutlineRotated(a, b, shipObject) {
         const result = document.elementsFromPoint(a, b);
@@ -122,8 +108,6 @@ function dragAndDrop() {
           ) {
             const fakeElement = document.createElement("div");
             element.appendChild(fakeElement);
-            // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
-            // and it's within the board
 
             const valueIndex = Number(fakeShip.classList[0][1]) - 1;
             if (fakeElement.parentNode.dataset.empty === "true") {
@@ -175,9 +159,6 @@ function dragAndDrop() {
                 fakeShip.style.top = "0";
                 fakeShip.style.left = "0";
                 const valueIndex = Number(fakeShip.classList[0][1]) - 1;
-                const shipsList = Object.values(newGame.boards[0].ships);
-
-                // shipsList.forEach((elem) => {
                 if (fakeShip.parentNode.dataset.empty === "true") {
                   let bool = true;
                   const ourShip = fakeShip.parentNode;
@@ -193,9 +174,6 @@ function dragAndDrop() {
                     element.removeChild(fakeShip);
                   }
                 }
-                // });
-                // and that none of the futurely occupied slots are already filled with a ship that isn't equal to our ship
-                // and it's within the board
               }
             }
           }
@@ -239,12 +217,13 @@ function dragAndDrop() {
           for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
             if (myShip) {
               myShip.dataset.empty = "true";
-              myShip = myShip.parentNode.nextSibling.firstChild;
+              myShip =
+                myShip.parentNode.nextSibling.children[
+                  Number(ship.parentNode.dataset.Y)
+                ];
             }
           }
         }
-
-        // next step is handling rotated ship placement
 
         ship.style.border = "none";
         onMouseMove = (event2) => {
@@ -278,7 +257,10 @@ function dragAndDrop() {
               let myShip2 = ship.parentNode;
               for (let s = 0; s < Number(ship.classList[0][1]); s += 1) {
                 myShip2.dataset.empty = "false";
-                myShip2 = myShip2.parentNode.nextSibling.firstChild;
+                myShip2 =
+                  myShip2.parentNode.nextSibling.children[
+                    Number(ship.parentNode.dataset.Y)
+                  ];
               }
             }
           } catch (error) {
@@ -312,6 +294,3 @@ function dragAndDrop() {
     });
   });
 })();
-
-// add ship coordinates into the ship object based on the rotation of the ship and the place of its head on the board.
-// handle display errors for ships on the board, then start implementing hits
