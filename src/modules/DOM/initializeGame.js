@@ -33,13 +33,10 @@ function gameOverCard() {
 }
 
 function allSunk() {
-  console.log("game over");
   document.body.style.pointerEvents = "none";
 }
 
 function isSunk(ship) {
-  console.log("ship is sunk");
-  console.log(ship);
   const element = document.createElement("div");
   element.classList.add(`l${ship.length}`);
   element.classList.add("ship");
@@ -58,10 +55,8 @@ function isSunk(ship) {
 }
 
 hittingSlots = () => {
-  console.log("hitting listener");
   const nodeList = document.querySelectorAll(".computer .slot");
   const computerSlots = Array.from(nodeList);
-  console.log(computerSlots);
 
   computerSlots.forEach((slot, index) => {
     slot.addEventListener("click", () => {
@@ -76,7 +71,6 @@ hittingSlots = () => {
           computerSlots[index].classList.add("hit");
         } else {
           computerSlots[index].classList.add("hit-ship");
-          console.log(computerSlots[index]);
 
           const myShip = newGame.boards[1].board[x][y].ship;
           if (myShip !== null) {
@@ -153,6 +147,7 @@ dragAndDrop = () => {
             }
           } else if (element.classList.contains("slot")) {
             let myElem = element;
+            console.log(shipObject);
             for (let idx = 0; idx < shipObject.length; idx += 1) {
               if (myElem === null) {
                 break;
@@ -349,9 +344,8 @@ dragAndDrop = () => {
 
         document.addEventListener("mousemove", onMouseMove);
 
-        ship.onmouseup = () => {
+        const mouseUp = () => {
           document.removeEventListener("mousemove", onMouseMove);
-
           ship.style.border = "3px solid yellow";
           ship.style.left = "0";
           ship.style.top = "0";
@@ -367,7 +361,7 @@ dragAndDrop = () => {
                   Number(ship.parentNode.dataset.Y),
                 ];
                 newGame.boards[0].placeShip(ships[valueIndex], coords);
-              } else {
+              } else if (document.body.contains(fakeShip)) {
                 initialSlot.appendChild(ship);
 
                 const ships = Object.values(newGame.boards[0].ships);
@@ -380,6 +374,7 @@ dragAndDrop = () => {
                 fakeShip.remove();
               }
             } catch (error) {
+              // there is a bug when user release ship outside boards
               initialSlot.appendChild(ship);
 
               const ships = Object.values(newGame.boards[0].ships);
@@ -419,6 +414,13 @@ dragAndDrop = () => {
           }
 
           ship.onmouseup = null;
+        };
+        ship.onmouseup = () => {
+          mouseUp();
+        };
+
+        fakeShip.onmouseup = () => {
+          mouseUp();
         };
       };
     });

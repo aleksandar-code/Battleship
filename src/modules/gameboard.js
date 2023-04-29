@@ -143,11 +143,19 @@ export default class Gameboard {
     let occupied = false;
     const arr = [{ x, y }];
     for (let i = 1; i < length; i += 1) {
-      if (ship.rotated === false && this.board[x + i][y].ship === null) {
+      if (
+        x + length - 1 <= 9 &&
+        ship.rotated === false &&
+        this.board[x + i][y].ship === null
+      ) {
         this.board[x + i][y].ship = ship;
         this.board[x][y + i].ship = null;
         arr.push({ x: x + i, y });
-      } else if (ship.rotated === true && this.board[x][y + i].ship === null) {
+      } else if (
+        y + length - 1 <= 9 &&
+        ship.rotated === true &&
+        this.board[x][y + i].ship === null
+      ) {
         this.board[x][y + i].ship = ship;
         this.board[x + i][y].ship = null;
         arr.push({ x, y: y + i });
@@ -156,7 +164,6 @@ export default class Gameboard {
         break;
       }
     }
-    this.prettyPrintBoard();
 
     if (occupied === true) return false;
 
