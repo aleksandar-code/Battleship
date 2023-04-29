@@ -24,6 +24,9 @@ function gameOverCard() {
     newGame.gameLoop();
     element.remove();
     document.body.style.pointerEvents = "";
+    const playerBoard = document.querySelector(".board.player");
+    playerBoard.style.pointerEvents = "";
+
     printBoards();
     printShips(newGame.boards);
     rotateShips();
@@ -36,13 +39,13 @@ function allSunk() {
   document.body.style.pointerEvents = "none";
 }
 
-function isSunk(ship) {
+function isSunk(ship, player) {
   const element = document.createElement("div");
   element.classList.add(`l${ship.length}`);
   element.classList.add("ship");
   if (ship.rotated === true) element.classList.add("rotated");
 
-  const nodeList = document.querySelectorAll(".computer .slot");
+  const nodeList = document.querySelectorAll(`.${player} .slot`);
   const computerSlots = Array.from(nodeList);
   computerSlots.forEach((slot) => {
     if (
@@ -50,6 +53,38 @@ function isSunk(ship) {
       Number(slot.dataset.Y) === ship.y
     ) {
       slot.appendChild(element);
+    }
+  });
+}
+
+function hitPlayerSlot() {
+  const nodeList = document.querySelectorAll(".player .slot");
+  const playerSlots = Array.from(nodeList);
+  const [x, y] = newGame.boards[1].owner.randomlyHitSlot();
+  const bool = newGame.boards[0].receiveAttack(x, y);
+  playerSlots.forEach((slot, idx) => {
+    if (
+      !slot.classList.contains("hit") &&
+      !slot.classList.contains("hit-ship")
+    ) {
+      const xHtml = Number(slot.dataset.X);
+      const yHtml = Number(slot.dataset.Y);
+      if (xHtml === x && yHtml === y) {
+        if (bool === false) {
+          playerSlots[idx].classList.add("hit");
+        } else {
+          playerSlots[idx].classList.add("hit-ship");
+
+          const myShip = newGame.boards[0].board[x][y].ship;
+          if (myShip !== null) {
+            if (myShip.sunk === true) isSunk(myShip, "player");
+            if (newGame.boards[0].isGameLost()) {
+              allSunk();
+              gameOverCard();
+            }
+          }
+        }
+      }
     }
   });
 }
@@ -64,17 +99,22 @@ hittingSlots = () => {
         !slot.classList.contains("hit") &&
         !slot.classList.contains("hit-ship")
       ) {
-        const x = slot.dataset.X;
-        const y = slot.dataset.Y;
+        const x = Number(slot.dataset.X);
+        const y = Number(slot.dataset.Y);
         const bool = newGame.boards[1].receiveAttack(x, y);
+        const playerBoard = document.querySelector(".board.player");
+        playerBoard.style.pointerEvents = "none";
+
         if (bool === false) {
+          hitPlayerSlot();
           computerSlots[index].classList.add("hit");
         } else {
+          hitPlayerSlot();
           computerSlots[index].classList.add("hit-ship");
 
           const myShip = newGame.boards[1].board[x][y].ship;
           if (myShip !== null) {
-            if (myShip.sunk === true) isSunk(myShip);
+            if (myShip.sunk === true) isSunk(myShip, "computer");
             if (newGame.boards[1].isGameLost()) {
               allSunk();
               gameOverCard();
@@ -140,14 +180,13 @@ dragAndDrop = () => {
                 element.removeChild(element.firstChild);
               } else {
                 element.appendChild(fakeShip);
-                fakeShip.style.border = "3px solid red";
+                fakeShip.style.border = "3px solid green";
                 fakeShip.style.top = "0";
                 fakeShip.style.left = "0";
               }
             }
           } else if (element.classList.contains("slot")) {
             let myElem = element;
-            console.log(shipObject);
             for (let idx = 0; idx < shipObject.length; idx += 1) {
               if (myElem === null) {
                 break;
@@ -157,7 +196,7 @@ dragAndDrop = () => {
                 Number(myElem.dataset.Y) === shipObject.fullCoords[idx].y
               ) {
                 element.appendChild(fakeShip);
-                fakeShip.style.border = "3px solid red";
+                fakeShip.style.border = "3px solid green";
                 fakeShip.style.top = "0";
                 fakeShip.style.left = "0";
                 const valueIndex = Number(fakeShip.classList[0][1]) - 1;
@@ -227,7 +266,7 @@ dragAndDrop = () => {
                 fakeElement.remove();
               } else {
                 element.appendChild(fakeShip);
-                fakeShip.style.border = "3px solid red";
+                fakeShip.style.border = "3px solid green";
                 fakeShip.style.top = "0";
                 fakeShip.style.left = "0";
                 fakeElement.remove();
@@ -244,7 +283,7 @@ dragAndDrop = () => {
                 Number(myElem.dataset.Y) === shipObject.fullCoords[idx].y
               ) {
                 element.appendChild(fakeShip);
-                fakeShip.style.border = "3px solid red";
+                fakeShip.style.border = "3px solid green";
                 fakeShip.style.top = "0";
                 fakeShip.style.left = "0";
                 const valueIndex = Number(fakeShip.classList[0][1]) - 1;
@@ -338,6 +377,7 @@ dragAndDrop = () => {
           ship.style.zIndex = 1000;
           document.body.append(ship);
           document.body.append(fakeShip);
+          fakeShip.style.border = "3px solid yellow";
 
           moveAt(event2.pageX, event2.pageY);
         };
