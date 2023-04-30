@@ -476,9 +476,7 @@ dragAndDrop = () => {
 
 rotateShips = () => {
   const realPlayerShips = Object.values(newGame.boards[0].ships);
-  // const realComputerShips = Object.values(newGame.boards[1].ships);
   const playerShips = document.querySelectorAll(".player .ship");
-  // const computerShips = document.querySelectorAll(".computer .ship");
   const playersShips = [Array.from(playerShips)];
   const realPlayersShips = [realPlayerShips];
   playersShips.forEach((arr, i) => {
