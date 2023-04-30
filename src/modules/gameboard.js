@@ -53,17 +53,17 @@ export default class Gameboard {
       }
     });
 
-    // const board = this.board.flat(Infinity);
-    // let bool2 = true;
-    // board.forEach((node) => {
-    //   if (node.ship !== null && bool2 === true) {
-    //     const index = node.ship.length - 1;
-    //     const ship = shipList[keys[index]];
-    //     console.log(ship);
-    //     this.changeAxis(ship);
-    //     bool2 = false;
-    //   }
-    // });
+    const board = this.board.flat(Infinity);
+    let bool2 = true;
+    board.forEach((node) => {
+      if (node.ship !== null && bool2 === true) {
+        const index = node.ship.length - 1;
+        const ship = shipList[keys[index]];
+        console.log(ship);
+        this.changeAxis(ship);
+        bool2 = false;
+      }
+    });
     this.prettyPrintBoard();
   }
 
@@ -166,13 +166,23 @@ export default class Gameboard {
     const { x, y, length } = ship;
     let occupied = false;
     const arr = [{ x, y }];
+    const ifOccupied = ship.fullCoords;
+    const shipCoords = ship.fullCoords;
+    const toRotate = [];
+    console.log(ship.fullCoords);
+
+    shipCoords.forEach((element) => {
+      this.board[element.x][element.y].ship = null;
+    });
+    this.board[x][y].ship = ship;
+
     for (let i = 1; i < length; i += 1) {
       if (
         x + length - 1 <= 9 &&
         ship.rotated === false &&
         this.board[x + i][y].ship === null
       ) {
-        this.board[x + i][y].ship = ship;
+        toRotate.push(this.board[x + i][y]);
         this.board[x][y + i].ship = null;
         arr.push({ x: x + i, y });
       } else if (
@@ -180,21 +190,40 @@ export default class Gameboard {
         ship.rotated === true &&
         this.board[x][y + i].ship === null
       ) {
-        this.board[x][y + i].ship = ship;
+        toRotate.push(this.board[x][y + i]);
         this.board[x + i][y].ship = null;
         arr.push({ x, y: y + i });
       } else {
         occupied = true;
+        ifOccupied.forEach((element) => {
+          this.board[element.x][element.y].ship = ship;
+        });
         break;
       }
     }
 
+    if (occupied === true) {
+      Object.entries(this.ships).forEach(([key, value]) => {
+        if (value.length === length) {
+          this.ships[key].fullCoords = shipCoords;
+          this.ships[key].x = x;
+          this.ships[key].y = y;
+        }
+      });
+    }
+
     if (occupied === true) return false;
+
+    toRotate.forEach((_, index) => {
+      toRotate[index].ship = ship;
+    });
 
     Object.entries(this.ships).forEach(([key, value]) => {
       if (value.length === length) {
         this.ships[key].rotated = !ship.rotated;
         this.ships[key].fullCoords = arr;
+        this.ships[key].x = x;
+        this.ships[key].y = y;
       }
     });
     return true;

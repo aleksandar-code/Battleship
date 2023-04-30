@@ -375,13 +375,15 @@ dragAndDrop = () => {
         }
 
         const initialSlot = ship.parentNode;
-        ship.style.border = "none";
         onMouseMove = (event2) => {
+          ship.style.border = "none";
           ship.style.position = "absolute";
           ship.style.zIndex = 1000;
+          ship.style.background = "none";
+          fakeShip.style.background = "none";
           document.body.append(ship);
           document.body.append(fakeShip);
-          fakeShip.style.border = "3px solid yellow";
+          fakeShip.style.border = "3px solid red";
 
           moveAt(event2.pageX, event2.pageY);
         };
@@ -390,7 +392,8 @@ dragAndDrop = () => {
 
         const mouseUp = () => {
           document.removeEventListener("mousemove", onMouseMove);
-          ship.style.border = "3px solid yellow";
+          ship.style.border = "3px solid #003cff";
+          ship.style.background = "#003cff41";
           ship.style.left = "0";
           ship.style.top = "0";
           if (fakeShip.parentNode !== null) {
