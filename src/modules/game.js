@@ -15,6 +15,5 @@ export default class Game {
   gameLoop() {
     this.boards[0].placeShips();
     this.boards[1].randomlyPlaceShips();
-    this.boards[1].prettyPrintBoard();
   }
 }

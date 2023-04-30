@@ -42,13 +42,29 @@ export default class Gameboard {
     const keys = ["one", "two", "three", "four", "five"];
     const shipList = this.ships;
     let bool = false;
+    let i = 0;
     keys.forEach((key) => {
       bool = false;
       while (bool === false) {
         const coords = this.owner.randomlyHitSlot();
         bool = this.placeShip(shipList[key], coords);
+        i += 1;
+        console.log(i);
       }
     });
+
+    // const board = this.board.flat(Infinity);
+    // let bool2 = true;
+    // board.forEach((node) => {
+    //   if (node.ship !== null && bool2 === true) {
+    //     const index = node.ship.length - 1;
+    //     const ship = shipList[keys[index]];
+    //     console.log(ship);
+    //     this.changeAxis(ship);
+    //     bool2 = false;
+    //   }
+    // });
+    this.prettyPrintBoard();
   }
 
   placeShips() {
@@ -134,8 +150,6 @@ export default class Gameboard {
         }
       }
     }
-
-    if (occupied === true) return false;
     Object.entries(this.ships).forEach(([key, value]) => {
       if (value.length === length) {
         this.ships[key].x = x;
@@ -143,7 +157,8 @@ export default class Gameboard {
         this.ships[key].fullCoords = arr;
       }
     });
-    this.prettyPrintBoard();
+    if (occupied === true) return false;
+
     return true;
   }
 
@@ -182,7 +197,6 @@ export default class Gameboard {
         this.ships[key].fullCoords = arr;
       }
     });
-    this.prettyPrintBoard();
     return true;
   }
 
@@ -193,9 +207,9 @@ export default class Gameboard {
       row.forEach((col, y) => {
         if (col.ship) {
           if (col.ship.rotated) {
-            myBoard[x][y] = "^";
+            myBoard[x][y] = `^${col.ship.length}`;
           } else if (col.ship.rotated === false) {
-            myBoard[x][y] = "<";
+            myBoard[x][y] = `<${col.ship.length}`;
           }
         } else {
           myBoard[x][y] = null;
@@ -203,5 +217,6 @@ export default class Gameboard {
       });
     });
     console.table(myBoard);
+    console.table(this.board);
   }
 }
