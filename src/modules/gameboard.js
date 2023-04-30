@@ -38,9 +38,18 @@ export default class Gameboard {
     return this.owner;
   }
 
-  // randomlyPlaceShips() {
-
-  // }
+  randomlyPlaceShips() {
+    const keys = ["one", "two", "three", "four", "five"];
+    const shipList = this.ships;
+    let bool = false;
+    keys.forEach((key) => {
+      bool = false;
+      while (bool === false) {
+        const coords = this.owner.randomlyHitSlot();
+        bool = this.placeShip(shipList[key], coords);
+      }
+    });
+  }
 
   placeShips() {
     const coords = [
