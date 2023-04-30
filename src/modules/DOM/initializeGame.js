@@ -106,10 +106,8 @@ hittingSlots = () => {
         playerBoard.style.pointerEvents = "none";
 
         if (bool === false) {
-          hitPlayerSlot();
           computerSlots[index].classList.add("hit");
         } else {
-          hitPlayerSlot();
           computerSlots[index].classList.add("hit-ship");
 
           const myShip = newGame.boards[1].board[x][y].ship;
@@ -120,6 +118,12 @@ hittingSlots = () => {
               gameOverCard();
             }
           }
+        }
+
+        if (bool === false && !newGame.boards[1].isGameLost()) {
+          hitPlayerSlot();
+        } else if (!newGame.boards[1].isGameLost()) {
+          hitPlayerSlot();
         }
       }
     });
