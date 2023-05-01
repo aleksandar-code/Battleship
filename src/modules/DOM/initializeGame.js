@@ -36,7 +36,7 @@ function gameOverCard() {
     printBoards();
     printShips(newGame.boards);
     rotateShips();
-    dragAndDrop();
+    dragAndDrop(newGame);
     hittingSlots();
   });
 }
