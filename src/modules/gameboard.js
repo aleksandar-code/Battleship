@@ -67,7 +67,6 @@ export default class Gameboard {
       if (node.ship !== null && bool2 === true && node.ship.length !== 1) {
         const index = node.ship.length - 1;
         const ship = shipList[keys[index]];
-        console.log(count);
         const returnBool = this.changeAxis(ship);
         if (returnBool === true) count += 1;
       }

@@ -2,6 +2,7 @@ import { printBoards, printShips } from "./printBoard";
 import Game from "../game";
 
 const score = document.getElementById("score");
+const instructions = document.getElementById("instructions");
 let playerScore = 0;
 let computerScore = 0;
 let newGame = new Game();
@@ -11,6 +12,7 @@ printShips(newGame.boards);
 let rotateShips;
 let dragAndDrop;
 let hittingSlots;
+instructions.textContent = "Place your ships";
 function gameOverCard() {
   const element = document.createElement("div");
   element.classList.add("gameover-card");
@@ -29,6 +31,7 @@ function gameOverCard() {
     document.body.style.pointerEvents = "";
     const playerBoard = document.querySelector(".board.player");
     playerBoard.style.pointerEvents = "";
+    instructions.textContent = "Place your ships";
 
     printBoards();
     printShips(newGame.boards);
@@ -96,7 +99,12 @@ function hitPlayerSlot() {
 
 hittingSlots = () => {
   const nodeList = document.querySelectorAll(".computer .slot");
+  const computer = document.querySelector(".computer");
   const computerSlots = Array.from(nodeList);
+
+  computer.onclick = () => {
+    instructions.textContent = "Battle has started";
+  };
 
   computerSlots.forEach((slot, index) => {
     slot.addEventListener("click", () => {
@@ -503,4 +511,3 @@ rotateShips = () => {
 rotateShips();
 dragAndDrop();
 hittingSlots();
-// add a nuke, make computer ships placement even more random on rotation side, add instructions for player, add media queries
