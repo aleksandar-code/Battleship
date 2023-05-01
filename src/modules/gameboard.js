@@ -32,36 +32,44 @@ export default class Gameboard {
       four: new Ship(4),
       five: new Ship(5),
     };
+
+    this.remainingSlots = this.board.flat(Infinity);
   }
 
   who() {
     return this.owner;
   }
 
+  randomlyChooseSlot() {
+    const index = Math.floor(Math.random() * this.remainingSlots.length);
+    const randomCoords = this.remainingSlots[index];
+    this.remainingSlots.splice(index, 1);
+    return [randomCoords.x, randomCoords.y];
+  }
+
   randomlyPlaceShips() {
     const keys = ["one", "two", "three", "four", "five"];
     const shipList = this.ships;
     let bool = false;
-    let i = 0;
     keys.forEach((key) => {
       bool = false;
       while (bool === false) {
-        const coords = this.owner.randomlyHitSlot();
+        const coords = this.randomlyChooseSlot();
         bool = this.placeShip(shipList[key], coords);
-        i += 1;
-        console.log(i);
       }
     });
 
     const board = this.board.flat(Infinity);
     let bool2 = true;
+    let count = 0;
     board.forEach((node) => {
-      if (node.ship !== null && bool2 === true) {
+      if (count > 3) bool2 = false;
+      if (node.ship !== null && bool2 === true && node.ship.length !== 1) {
         const index = node.ship.length - 1;
         const ship = shipList[keys[index]];
-        console.log(ship);
-        this.changeAxis(ship);
-        bool2 = false;
+        console.log(count);
+        const returnBool = this.changeAxis(ship);
+        if (returnBool === true) count += 1;
       }
     });
     this.prettyPrintBoard();
@@ -169,7 +177,6 @@ export default class Gameboard {
     const ifOccupied = ship.fullCoords;
     const shipCoords = ship.fullCoords;
     const toRotate = [];
-    console.log(ship.fullCoords);
 
     shipCoords.forEach((element) => {
       this.board[element.x][element.y].ship = null;
@@ -245,7 +252,5 @@ export default class Gameboard {
         }
       });
     });
-    console.table(myBoard);
-    console.table(this.board);
   }
 }

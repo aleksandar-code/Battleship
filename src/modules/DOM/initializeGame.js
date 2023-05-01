@@ -1,6 +1,9 @@
 import { printBoards, printShips } from "./printBoard";
 import Game from "../game";
 
+const score = document.getElementById("score");
+let playerScore = 0;
+let computerScore = 0;
 let newGame = new Game();
 newGame.gameLoop();
 printBoards();
@@ -81,6 +84,8 @@ function hitPlayerSlot() {
             if (newGame.boards[0].isGameLost()) {
               allSunk();
               gameOverCard();
+              computerScore += 1;
+              score.textContent = `${playerScore} - ${computerScore}`;
             }
           }
         }
@@ -116,6 +121,8 @@ hittingSlots = () => {
             if (newGame.boards[1].isGameLost()) {
               allSunk();
               gameOverCard();
+              playerScore += 1;
+              score.textContent = `${playerScore} - ${computerScore}`;
             }
           }
         }
@@ -496,7 +503,4 @@ rotateShips = () => {
 rotateShips();
 dragAndDrop();
 hittingSlots();
-// Implement ship placement link between backend & frontend refactor drag and drop and move it to another module?
-// add computer board into the equation, implement ship hitting.
-// is what i'm doing with the dom right? It feels like i'm doing too much of validations here.
-// add a function to randomize ship placement on the computer board, add player vs player
+// add a nuke, make computer ships placement even more random on rotation side, add instructions for player, add media queries

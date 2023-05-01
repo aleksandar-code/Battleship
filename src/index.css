@@ -131,3 +131,14 @@ body {
 .l1 {
   width: 49px
 }
+
+h2 {
+  text-align: center;
+}
+
+#score {
+  position: absolute;
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #6f00ff;
+}
