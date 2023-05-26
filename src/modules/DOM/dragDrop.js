@@ -18,6 +18,7 @@ function dragAndDrop(newGame) {
       };
 
       let onMouseMove;
+      let onTouchMove;
 
       function showOutlineNotRotated(a, b, shipObject) {
         const result = document.elementsFromPoint(a, b);
@@ -191,7 +192,17 @@ function dragAndDrop(newGame) {
         });
       }
 
+      let dragStart;
+
       ship.onmousedown = () => {
+        dragStart();
+      };
+
+      ship.ontouchstart = () => {
+        dragStart();
+      };
+
+      dragStart = () => {
         function moveAt(pageX, pageY) {
           fakeShip.style.left = `${pageX - ship.offsetWidth / 2}px`;
           fakeShip.style.top = `${pageY - ship.offsetHeight / 2}px`;
@@ -242,6 +253,20 @@ function dragAndDrop(newGame) {
         }
 
         const initialSlot = ship.parentNode;
+
+        onTouchMove = (event2) => {
+          ship.style.border = "none";
+          ship.style.position = "absolute";
+          ship.style.zIndex = 1000;
+          ship.style.background = "none";
+          fakeShip.style.background = "none";
+          document.body.append(ship);
+          document.body.append(fakeShip);
+          fakeShip.style.border = "3px solid red";
+          console.log(event2.pageX, event2.pageY);
+          moveAt(event2.pageX, event2.pageY);
+        };
+
         onMouseMove = (event2) => {
           ship.style.border = "none";
           ship.style.position = "absolute";
@@ -256,9 +281,11 @@ function dragAndDrop(newGame) {
         };
 
         document.addEventListener("mousemove", onMouseMove);
+        document.addEventListener("touchmove", onTouchMove);
 
         const mouseUp = () => {
           document.removeEventListener("mousemove", onMouseMove);
+          document.removeEventListener("touchmove", onTouchMove);
           ship.style.border = "3px solid #003cff";
           ship.style.background = "#003cff41";
           ship.style.left = "0";
@@ -327,12 +354,22 @@ function dragAndDrop(newGame) {
           }
 
           ship.onmouseup = null;
+          ship.ontouchend = null;
         };
         ship.onmouseup = () => {
           mouseUp();
         };
 
         fakeShip.onmouseup = () => {
+          mouseUp();
+        };
+
+        ship.ontouchend = (e) => {
+          mouseUp();
+          console.log(e);
+        };
+
+        fakeShip.ontouchend = () => {
           mouseUp();
         };
       };
