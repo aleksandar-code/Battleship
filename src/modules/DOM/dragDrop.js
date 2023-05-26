@@ -264,8 +264,7 @@ function dragAndDrop(newGame) {
           document.body.append(ship);
           document.body.append(fakeShip);
           fakeShip.style.border = "3px solid red";
-          console.log(event2.pageX, event2.pageY);
-          moveAt(event2.pageX, event2.pageY);
+          moveAt(event2.touches[0].clientX, event2.touches[0].clientY);
         };
 
         onMouseMove = (event2) => {
