@@ -198,8 +198,9 @@ function dragAndDrop(newGame) {
         dragStart();
       };
 
-      ship.ontouchstart = () => {
+      ship.ontouchstart = (e) => {
         dragStart();
+        e.preventDefault();
       };
 
       dragStart = () => {
@@ -364,9 +365,8 @@ function dragAndDrop(newGame) {
           mouseUp();
         };
 
-        ship.ontouchend = (e) => {
+        ship.ontouchend = () => {
           mouseUp();
-          console.log(e);
         };
 
         fakeShip.ontouchend = () => {
